@@ -1,5 +1,6 @@
-import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/entities/grocery_list_item_entity.dart';
+import 'package:dartz/dartz.dart';
 
+import '../../entities/grocery_list_item_entity.dart';
 import '../../repositories/grocery_list_item_repository.dart';
 
 class GetGroceryListItemUseCase {
@@ -7,7 +8,8 @@ class GetGroceryListItemUseCase {
 
   GetGroceryListItemUseCase(this.repository);
 
-  Future<GroceryListItemEntity> call(String groceryListId, String id) async {
+  Future<Either<String, GroceryListItemEntity>> call(
+      String groceryListId, String id) async {
     return await repository.getGroceryListItem(groceryListId, id);
   }
 }
