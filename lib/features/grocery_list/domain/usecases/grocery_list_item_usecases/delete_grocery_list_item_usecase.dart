@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+
 import '../../repositories/grocery_list_item_repository.dart';
 
 class DeleteGroceryListItemUseCase {
@@ -5,7 +7,7 @@ class DeleteGroceryListItemUseCase {
 
   DeleteGroceryListItemUseCase(this.repository);
 
-  Future<void> call(String groceryListId, String id) async {
-    await repository.deleteGroceryListItem(groceryListId, id);
+  Future<Either<String, void>> call(String groceryListId, String id) async {
+    return await repository.deleteGroceryListItem(groceryListId, id);
   }
 }
