@@ -3,8 +3,12 @@ import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/entities/gr
 
 abstract class GroceryListRepository {
   Future<Either<String, List<GroceryListEntity>>> getGroceryLists();
+
   Future<Either<String, GroceryListEntity>> getGroceryList(String id);
-  Future<void> addGroceryList(GroceryListEntity groceryList);
-  Future<void> updateGroceryList(GroceryListEntity groceryList);
-  Future<void> deleteGroceryList(String id);
+
+  Future<Either<String, void>> addGroceryList(GroceryListEntity groceryList);
+
+  Future<Either<String, void>> updateGroceryList(GroceryListEntity groceryList);
+
+  Future<Either<String, void>> deleteGroceryList(String id);
 }
