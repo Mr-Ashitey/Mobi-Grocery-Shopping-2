@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 
+import '../../../../../core/error/failure.dart';
 import '../../repositories/grocery_list_item_repository.dart';
 
 class DeleteGroceryListItemUseCase {
@@ -7,7 +8,7 @@ class DeleteGroceryListItemUseCase {
 
   DeleteGroceryListItemUseCase(this.repository);
 
-  Future<Either<String, void>> call(String groceryListId, String id) async {
+  Future<Either<Failure, void>> call(String groceryListId, String id) async {
     return await repository.deleteGroceryListItem(groceryListId, id);
   }
 }

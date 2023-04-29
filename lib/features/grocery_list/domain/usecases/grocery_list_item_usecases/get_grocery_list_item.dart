@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 
+import '../../../../../core/error/failure.dart';
 import '../../entities/grocery_list_item_entity.dart';
 import '../../repositories/grocery_list_item_repository.dart';
 
@@ -8,7 +9,7 @@ class GetGroceryListItemUseCase {
 
   GetGroceryListItemUseCase(this.repository);
 
-  Future<Either<String, GroceryListItemEntity>> call(
+  Future<Either<Failure, GroceryListItemEntity>> call(
       String groceryListId, String id) async {
     return await repository.getGroceryListItem(groceryListId, id);
   }

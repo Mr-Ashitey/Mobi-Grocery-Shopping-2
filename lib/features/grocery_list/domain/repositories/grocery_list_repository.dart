@@ -1,14 +1,17 @@
 import 'package:dartz/dartz.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/entities/grocery_list_entity.dart';
 
+import '../../../../core/error/failure.dart';
+
 abstract class GroceryListRepository {
-  Future<Either<String, List<GroceryListEntity>>> getGroceryLists();
+  Future<Either<Failure, List<GroceryListEntity>>> getGroceryLists();
 
-  Future<Either<String, GroceryListEntity>> getGroceryList(String id);
+  Future<Either<Failure, GroceryListEntity>> getGroceryList(String id);
 
-  Future<Either<String, void>> addGroceryList(GroceryListEntity groceryList);
+  Future<Either<Failure, void>> addGroceryList(GroceryListEntity groceryList);
 
-  Future<Either<String, void>> updateGroceryList(GroceryListEntity groceryList);
+  Future<Either<Failure, void>> updateGroceryList(
+      GroceryListEntity groceryList);
 
-  Future<Either<String, void>> deleteGroceryList(String id);
+  Future<Either<Failure, void>> deleteGroceryList(String id);
 }
