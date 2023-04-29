@@ -6,8 +6,9 @@
 import 'dart:async' as _i4;
 
 import 'package:dartz/dartz.dart' as _i2;
+import 'package:mobi_grocery_shopping_2/core/error/failure.dart' as _i5;
 import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/entities/grocery_list_entity.dart'
-    as _i5;
+    as _i6;
 import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/repositories/grocery_list_repository.dart'
     as _i3;
 import 'package:mockito/mockito.dart' as _i1;
@@ -43,26 +44,25 @@ class MockGroceryListRepository extends _i1.Mock
   }
 
   @override
-  _i4.Future<
-      _i2
-          .Either<String, List<_i5.GroceryListEntity>>> getGroceryLists() =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getGroceryLists,
-          [],
-        ),
-        returnValue:
-            _i4.Future<_i2.Either<String, List<_i5.GroceryListEntity>>>.value(
-                _FakeEither_0<String, List<_i5.GroceryListEntity>>(
-          this,
-          Invocation.method(
-            #getGroceryLists,
-            [],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<String, List<_i5.GroceryListEntity>>>);
+  _i4.Future<_i2.Either<_i5.Failure, List<_i6.GroceryListEntity>>>
+      getGroceryLists() => (super.noSuchMethod(
+            Invocation.method(
+              #getGroceryLists,
+              [],
+            ),
+            returnValue: _i4.Future<
+                    _i2.Either<_i5.Failure, List<_i6.GroceryListEntity>>>.value(
+                _FakeEither_0<_i5.Failure, List<_i6.GroceryListEntity>>(
+              this,
+              Invocation.method(
+                #getGroceryLists,
+                [],
+              ),
+            )),
+          ) as _i4
+              .Future<_i2.Either<_i5.Failure, List<_i6.GroceryListEntity>>>);
   @override
-  _i4.Future<_i2.Either<String, _i5.GroceryListEntity>> getGroceryList(
+  _i4.Future<_i2.Either<_i5.Failure, _i6.GroceryListEntity>> getGroceryList(
           String? id) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -70,63 +70,63 @@ class MockGroceryListRepository extends _i1.Mock
           [id],
         ),
         returnValue:
-            _i4.Future<_i2.Either<String, _i5.GroceryListEntity>>.value(
-                _FakeEither_0<String, _i5.GroceryListEntity>(
+            _i4.Future<_i2.Either<_i5.Failure, _i6.GroceryListEntity>>.value(
+                _FakeEither_0<_i5.Failure, _i6.GroceryListEntity>(
           this,
           Invocation.method(
             #getGroceryList,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.Either<String, _i5.GroceryListEntity>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.GroceryListEntity>>);
   @override
-  _i4.Future<_i2.Either<String, void>> addGroceryList(
-          _i5.GroceryListEntity? groceryList) =>
+  _i4.Future<_i2.Either<_i5.Failure, void>> addGroceryList(
+          _i6.GroceryListEntity? groceryList) =>
       (super.noSuchMethod(
         Invocation.method(
           #addGroceryList,
           [groceryList],
         ),
-        returnValue: _i4.Future<_i2.Either<String, void>>.value(
-            _FakeEither_0<String, void>(
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
+            _FakeEither_0<_i5.Failure, void>(
           this,
           Invocation.method(
             #addGroceryList,
             [groceryList],
           ),
         )),
-      ) as _i4.Future<_i2.Either<String, void>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, void>>);
   @override
-  _i4.Future<_i2.Either<String, void>> updateGroceryList(
-          _i5.GroceryListEntity? groceryList) =>
+  _i4.Future<_i2.Either<_i5.Failure, void>> updateGroceryList(
+          _i6.GroceryListEntity? groceryList) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateGroceryList,
           [groceryList],
         ),
-        returnValue: _i4.Future<_i2.Either<String, void>>.value(
-            _FakeEither_0<String, void>(
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
+            _FakeEither_0<_i5.Failure, void>(
           this,
           Invocation.method(
             #updateGroceryList,
             [groceryList],
           ),
         )),
-      ) as _i4.Future<_i2.Either<String, void>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, void>>);
   @override
-  _i4.Future<_i2.Either<String, void>> deleteGroceryList(String? id) =>
+  _i4.Future<_i2.Either<_i5.Failure, void>> deleteGroceryList(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteGroceryList,
           [id],
         ),
-        returnValue: _i4.Future<_i2.Either<String, void>>.value(
-            _FakeEither_0<String, void>(
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
+            _FakeEither_0<_i5.Failure, void>(
           this,
           Invocation.method(
             #deleteGroceryList,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.Either<String, void>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, void>>);
 }
