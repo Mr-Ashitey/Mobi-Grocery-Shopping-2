@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/entities/grocery_list_entity.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/usecases/grocery_list_usecases/update_grocery_list_usecase.dart';
@@ -28,7 +29,7 @@ void main() {
   test('UpdateGroceryListUseCase should update a grocery list', () async {
     // Arrange
     when(mockGroceryListRepository.updateGroceryList(updatedGroceryListEntity))
-        .thenAnswer((_) => Future.value());
+        .thenAnswer((_) async => const Right(null));
 
     // Act
     await updateGroceryListUseCase.call(updatedGroceryListEntity);

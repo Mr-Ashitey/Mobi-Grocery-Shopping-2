@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/entities/grocery_list_entity.dart';
 
@@ -26,7 +27,7 @@ void main() {
   test('should add grocery list usecase', () async {
     // arrange
     when(mockGroceryListRepository.addGroceryList(groceryListEntity))
-        .thenAnswer((_) => Future.value());
+        .thenAnswer((_) async => const Right(null));
 
     // Act
     await addGroceryListUseCase.call(groceryListEntity);
