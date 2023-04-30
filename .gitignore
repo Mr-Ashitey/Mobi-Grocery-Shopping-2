@@ -48,3 +48,4 @@ app.*.map.json
 
 # Code generated files
 *.mocks.dart
+*.g.dart
