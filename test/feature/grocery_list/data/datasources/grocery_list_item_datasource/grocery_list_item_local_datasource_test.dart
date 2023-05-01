@@ -32,14 +32,6 @@ void main() {
   const groceryListId = 1;
   const groceryListItem = GroceryListItemModel(
       groceryListItemId: 1, groceryListItemName: "List Item 1");
-  final expected = [
-    const GroceryListItemModel(
-        groceryListItemId: 1, groceryListItemName: "List Item 1"),
-    const GroceryListItemModel(
-        groceryListItemId: 1, groceryListItemName: "List Item 1"),
-    const GroceryListItemModel(
-        groceryListItemId: 1, groceryListItemName: "List Item 1")
-  ];
   const jsonStr =
       '[{"id": "1","name":"List 1","groceryListItems":[{"id":"1", "name": "List item 1", "isCollected": false}]},{"id":"2","name":"List 2","groceryListItems":[{"id":"1", "name": "List item 1", "isCollected": false}]},{"id":"3","name":"List 3","groceryListItems":[{"id":"1", "name": "List item 1", "isCollected": false}]}]';
   const jsonStrWithIntIDs =
