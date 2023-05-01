@@ -6,18 +6,18 @@ import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/entities/gr
 
 void main() {
   final groceryListModel = GroceryListModel(
-    id: 1,
-    name: 'My Grocery List',
-    groceryListItems: [
+    groceryListId: 1,
+    groceryListName: 'My Grocery List',
+    groceryListItemsModel: [
       GroceryListItemModel(
-        id: 1,
-        name: 'Milk',
-        isCollected: false,
+        groceryListItemId: 1,
+        groceryListItemName: 'Milk',
+        groceryListItemIsCollected: false,
       ),
       GroceryListItemModel(
-        id: 2,
-        name: 'Eggs',
-        isCollected: false,
+        groceryListItemId: 2,
+        groceryListItemName: 'Eggs',
+        groceryListItemIsCollected: false,
       ),
     ],
   );
