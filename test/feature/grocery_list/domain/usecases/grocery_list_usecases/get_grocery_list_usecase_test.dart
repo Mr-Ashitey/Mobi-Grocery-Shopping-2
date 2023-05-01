@@ -18,7 +18,7 @@ void main() {
   test('should get a grocery list', () async {
     // Arrange
     final expectedGroceryListEntity = GroceryListEntity(
-      id: '1234567890',
+      id: 1234567890,
       name: 'My Grocery List',
       groceryListItems: [],
     );

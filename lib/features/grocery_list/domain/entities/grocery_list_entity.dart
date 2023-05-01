@@ -1,7 +1,7 @@
 import 'grocery_list_item_entity.dart';
 
 class GroceryListEntity {
-  final String id;
+  final int id;
   final String name;
   final List<GroceryListItemEntity> groceryListItems;
 

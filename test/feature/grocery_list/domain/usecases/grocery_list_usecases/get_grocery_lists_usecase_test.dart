@@ -15,13 +15,13 @@ void main() {
     getGroceryListsUseCase = GetGroceryListsUseCase(mockGroceryListRepository);
   });
   final expectedGroceryListEntity1 = GroceryListEntity(
-    id: '1234567890',
+    id: 1234567890,
     name: 'My Grocery List',
     groceryListItems: [],
   );
 
   final expectedGroceryListEntity2 = GroceryListEntity(
-    id: '9876543210',
+    id: 9876543210,
     name: 'Other Grocery List',
     groceryListItems: [],
   );

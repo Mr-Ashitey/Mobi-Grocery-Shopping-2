@@ -15,7 +15,7 @@ void main() {
     updateGroceryListItemUseCase =
         UpdateGroceryListItemUseCase(mockGroceryListRepository);
   });
-  const groceryListItemId = '1234567890';
+  const groceryListItemId = 1234567890;
   const groceryListItemName = 'New Name';
   const groceryListItemIsComplete = true;
 

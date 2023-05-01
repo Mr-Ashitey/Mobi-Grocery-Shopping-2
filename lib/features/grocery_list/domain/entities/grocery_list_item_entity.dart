@@ -1,5 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+@JsonSerializable()
 class GroceryListItemEntity {
-  final String id;
+  final int id;
   final String name;
   final bool isCollected;
 

@@ -19,7 +19,7 @@ void main() {
     addGroceryListItemUseCase =
         AddGroceryListItemUseCase(mockGroceryListItemRepository);
   });
-  const groceryListItemId = '1234567890';
+  const groceryListItemId = 1234567890;
   const groceryListItemName = 'Milk';
   const groceryListItemIsComplete = false;
 

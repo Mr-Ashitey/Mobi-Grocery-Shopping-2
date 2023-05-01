@@ -14,8 +14,8 @@ void main() {
     deleteGroceryListItemUseCase =
         DeleteGroceryListItemUseCase(mockGroceryListItemRepository);
   });
-  const groceryListId = '1234567890';
-  const groceryListItemId = '999999999';
+  const groceryListId = 1234567890;
+  const groceryListItemId = 999999999;
   test('DeleteGroceryListItemUseCase should delete a grocery list item',
       () async {
     // Arrange

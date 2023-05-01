@@ -5,10 +5,10 @@ import '../entities/grocery_list_item_entity.dart';
 
 abstract class GroceryListItemRepository {
   Future<Either<Failure, List<GroceryListItemEntity>>> getGroceryListItems(
-      String groceryListId);
+      int groceryListId);
 
   Future<Either<Failure, GroceryListItemEntity>> getGroceryListItem(
-      String groceryListId, String id);
+      int groceryListId, int id);
 
   Future<Either<Failure, void>> addGroceryListItem(
       GroceryListItemEntity groceryListItem);
@@ -17,5 +17,5 @@ abstract class GroceryListItemRepository {
       GroceryListItemEntity groceryListItem);
 
   Future<Either<Failure, void>> deleteGroceryListItem(
-      String groceryListId, String id);
+      int groceryListId, int id);
 }

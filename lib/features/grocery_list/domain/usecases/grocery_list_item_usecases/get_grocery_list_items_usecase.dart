@@ -10,7 +10,7 @@ class GetGroceryListItemsUseCase {
   GetGroceryListItemsUseCase(this.repository);
 
   Future<Either<Failure, List<GroceryListItemEntity>>> call(
-      String groceryListId) async {
+      int groceryListId) async {
     return await repository.getGroceryListItems(groceryListId);
   }
 }

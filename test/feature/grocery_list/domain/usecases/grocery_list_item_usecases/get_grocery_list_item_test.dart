@@ -15,8 +15,8 @@ void main() {
     getGroceryListItemUseCase =
         GetGroceryListItemUseCase(mockGroceryListItemRepository);
   });
-  const groceryListId = '1234567890';
-  const groceryListItemId = '9999999';
+  const groceryListId = 1234567890;
+  const groceryListItemId = 9999999;
   final expectedGroceryListItemEntity = GroceryListItemEntity(
     id: groceryListItemId,
     name: 'Milk',

@@ -20,7 +20,7 @@ void main() {
   });
 
   final groceryListEntity = GroceryListEntity(
-    id: '1234567890',
+    id: 1234567890,
     name: 'My Grocery List',
     groceryListItems: [],
   );

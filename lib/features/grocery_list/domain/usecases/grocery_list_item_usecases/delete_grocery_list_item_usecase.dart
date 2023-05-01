@@ -8,7 +8,7 @@ class DeleteGroceryListItemUseCase {
 
   DeleteGroceryListItemUseCase(this.repository);
 
-  Future<Either<Failure, void>> call(String groceryListId, String id) async {
+  Future<Either<Failure, void>> call(int groceryListId, int id) async {
     return await repository.deleteGroceryListItem(groceryListId, id);
   }
 }
