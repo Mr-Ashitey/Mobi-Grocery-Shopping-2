@@ -15,13 +15,13 @@ void main() {
     getGroceryListItemsUseCase =
         GetGroceryListItemsUseCase(mockGroceryListItemRepository);
   });
-  final expectedGroceryListItemEntity1 = GroceryListItemEntity(
+  const expectedGroceryListItemEntity1 = GroceryListItemEntity(
     id: 1234567890,
     name: 'Milk',
     isCollected: false,
   );
 
-  final expectedGroceryListItemEntity2 = GroceryListItemEntity(
+  const expectedGroceryListItemEntity2 = GroceryListItemEntity(
     id: 9876543210,
     name: 'Other Grocery Item',
     isCollected: true,
@@ -39,7 +39,7 @@ void main() {
 
     // Act
     final actualGroceryListItemList = await getGroceryListItemsUseCase
-        .call(expectedGroceryListItemList[0].id!);
+        .call(expectedGroceryListItemList[0].id);
 
     // Assert
     expect(actualGroceryListItemList, Right(expectedGroceryListItemList));

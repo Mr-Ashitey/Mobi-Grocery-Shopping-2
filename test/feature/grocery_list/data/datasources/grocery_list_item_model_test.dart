@@ -3,7 +3,7 @@ import 'package:mobi_grocery_shopping_2/features/grocery_list/data/model/grocery
 import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/entities/grocery_list_item_entity.dart';
 
 void main() {
-  final groceryListItemModel = GroceryListItemModel(
+  const groceryListItemModel = GroceryListItemModel(
     groceryListItemId: 1,
     groceryListItemName: 'Milk',
     groceryListItemIsCollected: false,

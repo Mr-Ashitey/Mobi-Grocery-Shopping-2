@@ -5,7 +5,7 @@ import 'package:mobi_grocery_shopping_2/features/grocery_list/data/model/grocery
 import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/entities/grocery_list_entity.dart';
 
 void main() {
-  final groceryListModel = GroceryListModel(
+  const groceryListModel = GroceryListModel(
     groceryListId: 1,
     groceryListName: 'My Grocery List',
     groceryListItemsModel: [

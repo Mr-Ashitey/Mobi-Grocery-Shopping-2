@@ -21,7 +21,7 @@ void main() {
   });
 
 // Create a mock GroceryListModel.
-  final groceryListModel = GroceryListModel(
+  const groceryListModel = GroceryListModel(
     groceryListId: 1,
     groceryListName: 'Grocery List',
     groceryListItemsModel: [
@@ -78,7 +78,6 @@ void main() {
       'should get a single GroceryListModel when the response code is 200 (success)',
       () async {
         // arrange
-
         when(mockDioClient.get(any)).thenAnswer((_) async => successResponse);
 
         // act
