@@ -19,38 +19,36 @@ void main() {
     dataSourceImpl = GrcoeryListItemRemoteDataSourceImpl(mockDioClient);
   });
 
-// Create a mock GroceryListModel.
   const groceryListId = 1;
-  final groceryListItem =
+  const groceryListItem =
       GroceryListItemModel(groceryListItemId: 1, groceryListItemName: "Apple");
-  final List<GroceryListItemModel> groceryListItemsModel = [
-    groceryListItem,
-    groceryListItem
+// Create a mock GroceryListModel.
+  const groceryListItems = [
+    GroceryListItemModel(groceryListItemId: 1, groceryListItemName: "Apple"),
+    GroceryListItemModel(groceryListItemId: 2, groceryListItemName: "Banana"),
+    GroceryListItemModel(groceryListItemId: 3, groceryListItemName: "Orange")
   ];
-
-  // final groceryListItemModelList = [
-  //   GroceryListItemModel(groceryListItemId: 1, groceryListItemName: "Apple"),
-  // ];
 
   final successResponse = Response(
     requestOptions: RequestOptions(),
     data: groceryListItem.toJson(),
+    // "{'id': 1,'name': 'Grocery List','groceryListItems': '[{'id': 1, 'name': 'Apple'}, {'id': 2, 'name': 'Banana'},{'id': 3, 'name': 'Orange'})]}",
     statusCode: 200,
   );
   final successResponse2 = Response(
     statusCode: 200,
-    data: groceryListItemsModel.map((list) => list.toJson()).toList(),
+    data: groceryListItems.map((list) => list.toJson()).toList(),
     requestOptions: RequestOptions(),
   );
   final emptyResponse = Response(requestOptions: RequestOptions());
 
-  group('GrcoeryListRemoteDataSourceImpl success', () {
+  group('GrcoeryListItemRemoteDataSourceImpl success', () {
     test(
-      'should add GroceryListItemModel when the response code is 200 (success)',
+      'should add GroceryListModel when the response code is 200 (success)',
       () async {
         // arrange
 
-        when(mockDioClient.post(any, groceryListItemsModel.first.toJson()))
+        when(mockDioClient.post(any, groceryListItem.toJson()))
             .thenAnswer((_) async => emptyResponse);
 
         // act
@@ -61,9 +59,10 @@ void main() {
       },
     );
     test(
-      'should delete a particular GroceryListItemModel when the response code is 200 (success)',
+      'should delete GroceryListModel when the response code is 200 (success)',
       () async {
         // arrange
+
         when(mockDioClient.delete(any)).thenAnswer((_) async => emptyResponse);
 
         // act
@@ -74,10 +73,9 @@ void main() {
       },
     );
     test(
-      'should get a single GroceryListItemModel when the response code is 200 (success)',
+      'should get a single GroceryListModel when the response code is 200 (success)',
       () async {
         // arrange
-
         when(mockDioClient.get(any)).thenAnswer((_) async => successResponse);
 
         // act
@@ -88,20 +86,19 @@ void main() {
       },
     );
     test(
-      'should get a List<GroceryListItemModel> when the response code is 200 (success)',
+      'should get a List<GroceryListModel> when the response code is 200 (success)',
       () async {
         // arrange
         when(mockDioClient.get(any)).thenAnswer((_) async => successResponse2);
 
         // act
-        final result = await dataSourceImpl
-            .getGroceryListItems(groceryListItemsModel.first.id);
+        final result = await dataSourceImpl.getGroceryListItems(groceryListId);
         // assert
-        expect(result, equals(groceryListItemsModel));
+        expect(result, equals(groceryListItems));
       },
     );
     test(
-      'should update a GroceryListModel when the response code is 200 (success)',
+      'should update a GroceryListItemModel when the response code is 200 (success)',
       () async {
         // arrange
         when(mockDioClient.put(any, groceryListItem.toJson()))
@@ -116,7 +113,7 @@ void main() {
     );
   });
 
-  group('GrcoeryListRemoteDataSourceImpl failure', () {
+  group('GrcoeryListItemRemoteDataSourceImpl failure', () {
     test(
       'should throw a Failure on adding a GroceryListModel when the response code is 404 or other',
       () async {
@@ -131,7 +128,7 @@ void main() {
       },
     );
     test(
-      'should throw a Failure on deleting a GroceryListModel when the response code is 404 or other',
+      'should throw a Failure on deleting a GroceryListItemModel when the response code is 404 or other',
       () async {
         // arrange
         when(mockDioClient.delete(any)).thenThrow(Failure("Not Found"));
@@ -144,7 +141,7 @@ void main() {
       },
     );
     test(
-      'should throw a Failure on adding a GroceryListModel when the response code is 404 or other',
+      'should throw a Failure on adding a GroceryListItemModel when the response code is 404 or other',
       () async {
         // arrange
         when(mockDioClient.post(any, groceryListItem.toJson()))
@@ -157,7 +154,7 @@ void main() {
       },
     );
     test(
-      'should throw a Failure on getting a single GroceryListModel when the response code is 404 or other',
+      'should throw a Failure on getting a single GroceryListItemModel when the response code is 404 or other',
       () async {
         // arrange
         when(mockDioClient.get(any)).thenThrow(Failure("Not Found"));
@@ -170,7 +167,7 @@ void main() {
       },
     );
     test(
-      'should throw a Failure on getting a List<GroceryListModel> when the response code is 404 or other',
+      'should throw a Failure on getting a List<GroceryListItemModel> when the response code is 404 or other',
       () async {
         // arrange
         when(mockDioClient.get(any)).thenThrow(Failure("Not Found"));
@@ -181,7 +178,7 @@ void main() {
       },
     );
     test(
-      'should throw a Failure on updating a GroceryListModel when the response code is 404 or other',
+      'should throw a Failure on updating a GroceryListItemModel when the response code is 404 or other',
       () async {
         // arrange
         when(mockDioClient.put(any, groceryListItem.toJson()))
