@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobi_grocery_shopping_2/core/router.dart';
+import 'package:mobi_grocery_shopping_2/config/router.dart';
 
 void main() {
   runApp(const GroceryListApp());
