@@ -64,13 +64,9 @@ class DioClient {
   }
 
   // delete endpoint
-  Future<Response> delete(String endpoint) async {
-    Response response;
-
+  Future<void> delete(String endpoint) async {
     try {
-      response = await _dio.delete(endpoint);
-
-      return response;
+      await _dio.delete(endpoint);
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
       throw Failure(errorMessage);
