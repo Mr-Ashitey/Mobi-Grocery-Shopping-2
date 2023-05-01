@@ -40,7 +40,7 @@ class DioClient {
     Response response;
 
     try {
-      response = await _dio.get(endpoint, data: body);
+      response = await _dio.post(endpoint, data: body);
 
       return response;
     } on DioError catch (e) {
