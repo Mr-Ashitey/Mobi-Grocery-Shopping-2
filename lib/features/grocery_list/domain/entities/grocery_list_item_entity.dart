@@ -1,10 +1,13 @@
-part 'grocery_list_item_entity.g.dart';
+import 'package:equatable/equatable.dart';
 
-class GroceryListItemEntity {
+class GroceryListItemEntity extends Equatable {
   final int id;
   final String name;
   final bool isCollected;
 
-  GroceryListItemEntity(
+  const GroceryListItemEntity(
       {required this.id, required this.name, this.isCollected = false});
+
+  @override
+  List<Object?> get props => [id, name, isCollected];
 }
