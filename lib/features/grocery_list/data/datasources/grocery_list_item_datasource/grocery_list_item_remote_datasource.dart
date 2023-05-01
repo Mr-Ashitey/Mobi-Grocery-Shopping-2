@@ -1,45 +1,80 @@
+import 'package:mobi_grocery_shopping_2/core/api/dio_client.dart';
+
+import '../../../../../core/error/failure.dart';
 import '../../model/grocery_list_item_model.dart';
 
-abstract class GrcoeryListRemoteDataSource {
+abstract class GrcoeryListItemRemoteDataSource {
   Future<List<GroceryListItemModel>> getGroceryListItems(int groceryListId);
 
   Future<GroceryListItemModel> getGroceryListItem(int groceryListId, int id);
 
-  Future<void> addGroceryListItem(GroceryListItemModel groceryListItem);
+  Future<void> addGroceryListItem(
+      int groceryListId, GroceryListItemModel groceryListItem);
 
-  Future<void> updateGroceryListItem(GroceryListItemModel groceryListItem);
+  Future<void> updateGroceryListItem(
+      int groceryListId, GroceryListItemModel groceryListItem);
 
   Future<void> deleteGroceryListItem(int groceryListId, int id);
 }
 
-class GrcoeryListRemoteDataSourceImpl implements GrcoeryListRemoteDataSource {
+class GrcoeryListItemRemoteDataSourceImpl
+    implements GrcoeryListItemRemoteDataSource {
+  final DioClient _dioClient;
+
+  GrcoeryListItemRemoteDataSourceImpl(this._dioClient);
   @override
-  Future<void> addGroceryListItem(GroceryListItemModel groceryListItem) {
-    // TODO: implement addGroceryListItem
-    throw UnimplementedError();
+  Future<void> addGroceryListItem(
+      int groceryListId, GroceryListItemModel groceryListItem) async {
+    try {
+      await _dioClient.post("/api/$groceryListId", groceryListItem.toJson());
+    } on Failure {
+      rethrow;
+    }
   }
 
   @override
-  Future<void> deleteGroceryListItem(int groceryListId, int id) {
-    // TODO: implement deleteGroceryListItem
-    throw UnimplementedError();
+  Future<void> deleteGroceryListItem(int groceryListId, int id) async {
+    try {
+      await _dioClient.delete("/api");
+    } on Failure {
+      rethrow;
+    }
   }
 
   @override
-  Future<GroceryListItemModel> getGroceryListItem(int groceryListId, int id) {
-    // TODO: implement getGroceryListItem
-    throw UnimplementedError();
+  Future<GroceryListItemModel> getGroceryListItem(
+      int groceryListId, int id) async {
+    try {
+      final response = await _dioClient.get("/api/$groceryListId");
+      return GroceryListItemModel.fromJson(response.data);
+    } on Failure {
+      rethrow;
+    }
   }
 
   @override
-  Future<List<GroceryListItemModel>> getGroceryListItems(int groceryListId) {
-    // TODO: implement getGroceryListItems
-    throw UnimplementedError();
+  Future<List<GroceryListItemModel>> getGroceryListItems(
+      int groceryListId) async {
+    try {
+      final response = await _dioClient.get("/api");
+      final groceryLists = response.data
+          .map((groceryList) => GroceryListItemModel.fromJson(groceryList))
+          .cast<GroceryListItemModel>()
+          .toList();
+
+      return groceryLists;
+    } on Failure {
+      rethrow;
+    }
   }
 
   @override
-  Future<void> updateGroceryListItem(GroceryListItemModel groceryListItem) {
-    // TODO: implement updateGroceryListItem
-    throw UnimplementedError();
+  Future<void> updateGroceryListItem(
+      int groceryListId, GroceryListItemModel groceryListItem) async {
+    try {
+      await _dioClient.put("/api/$groceryListId", groceryListItem.toJson());
+    } on Failure {
+      rethrow;
+    }
   }
 }
