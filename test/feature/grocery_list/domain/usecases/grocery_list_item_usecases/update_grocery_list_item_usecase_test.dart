@@ -15,11 +15,12 @@ void main() {
     updateGroceryListItemUseCase =
         UpdateGroceryListItemUseCase(mockGroceryListRepository);
   });
+  const groceryListId = 1;
   const groceryListItemId = 1234567890;
   const groceryListItemName = 'New Name';
   const groceryListItemIsComplete = true;
 
-  final groceryListItemEntity = GroceryListItemEntity(
+  const groceryListItemEntity = GroceryListItemEntity(
     id: groceryListItemId,
     name: groceryListItemName,
     isCollected: groceryListItemIsComplete,
@@ -27,14 +28,15 @@ void main() {
   test('UpdateGroceryListItemUseCase should update a grocery list item',
       () async {
     // Arrange
-    when(mockGroceryListRepository.updateGroceryListItem(groceryListItemEntity))
+    when(mockGroceryListRepository.updateGroceryListItem(any, any))
         .thenAnswer((_) async => const Right(null));
 
     // Act
-    await updateGroceryListItemUseCase.call(groceryListItemEntity);
+    await updateGroceryListItemUseCase.call(
+        groceryListId, groceryListItemEntity);
 
     // Assert
-    verify(
-        mockGroceryListRepository.updateGroceryListItem(groceryListItemEntity));
+    verify(mockGroceryListRepository.updateGroceryListItem(
+        groceryListId, groceryListItemEntity));
   });
 }

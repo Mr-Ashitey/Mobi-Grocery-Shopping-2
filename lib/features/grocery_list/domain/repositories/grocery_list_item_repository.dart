@@ -11,10 +11,10 @@ abstract class GroceryListItemRepository {
       int groceryListId, int id);
 
   Future<Either<Failure, void>> addGroceryListItem(
-      GroceryListItemEntity groceryListItem);
+      int groceryListId, GroceryListItemEntity groceryListItem);
 
   Future<Either<Failure, void>> updateGroceryListItem(
-      GroceryListItemEntity groceryListItem);
+      int groceryListId, GroceryListItemEntity groceryListItem);
 
   Future<Either<Failure, void>> deleteGroceryListItem(
       int groceryListId, int id);

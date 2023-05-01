@@ -10,7 +10,8 @@ class UpdateGroceryListItemUseCase {
   UpdateGroceryListItemUseCase(this.repository);
 
   Future<Either<Failure, void>> call(
-      GroceryListItemEntity groceryListItem) async {
-    return await repository.updateGroceryListItem(groceryListItem);
+      int groceryListId, GroceryListItemEntity groceryListItem) async {
+    return await repository.updateGroceryListItem(
+        groceryListId, groceryListItem);
   }
 }
