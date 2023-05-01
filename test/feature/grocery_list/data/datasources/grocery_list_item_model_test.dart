@@ -4,9 +4,9 @@ import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/entities/gr
 
 void main() {
   final groceryListItemModel = GroceryListItemModel(
-    id: 1,
-    name: 'Milk',
-    isCollected: false,
+    groceryListItemId: 1,
+    groceryListItemName: 'Milk',
+    groceryListItemIsCollected: false,
   );
   test("GrcoeryListItemModel should be a subclass of GroceryListItemEntity",
       () {
