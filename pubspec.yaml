@@ -35,6 +35,7 @@ dependencies:
   flutter:
     sdk: flutter
   go_router: ^6.5.9
+  internet_connection_checker: ^1.0.0+1
   json_annotation: ^4.8.0
 
 dev_dependencies:
