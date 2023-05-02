@@ -28,15 +28,15 @@ void main() {
   test('UpdateGroceryListItemUseCase should update a grocery list item',
       () async {
     // Arrange
-    when(mockGroceryListRepository.updateGroceryListItem(any, any))
+    when(mockGroceryListRepository.updateGroceryListItem(any, any, any))
         .thenAnswer((_) async => const Right(null));
 
     // Act
     await updateGroceryListItemUseCase.call(
-        groceryListId, groceryListItemEntity);
+        groceryListId, groceryListItemId, groceryListItemEntity);
 
     // Assert
     verify(mockGroceryListRepository.updateGroceryListItem(
-        groceryListId, groceryListItemEntity));
+        groceryListId, groceryListItemId, groceryListItemEntity));
   });
 }

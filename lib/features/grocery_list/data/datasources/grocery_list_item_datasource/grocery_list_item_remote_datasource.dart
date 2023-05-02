@@ -12,7 +12,7 @@ abstract class GrcoeryListItemRemoteDataSource {
       int groceryListId, GroceryListItemModel groceryListItem);
 
   Future<void> updateGroceryListItem(
-      int groceryListId, GroceryListItemModel groceryListItem);
+      int groceryListId, int id, GroceryListItemModel groceryListItem);
 
   Future<void> deleteGroceryListItem(int groceryListId, int id);
 }
@@ -70,7 +70,7 @@ class GrcoeryListItemRemoteDataSourceImpl
 
   @override
   Future<void> updateGroceryListItem(
-      int groceryListId, GroceryListItemModel groceryListItem) async {
+      int groceryListId, int id, GroceryListItemModel groceryListItem) async {
     try {
       await _dioClient.put("/api/$groceryListId", groceryListItem.toJson());
     } on Failure {

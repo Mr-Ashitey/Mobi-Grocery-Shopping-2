@@ -107,7 +107,8 @@ void main() {
             .thenAnswer((_) async => emptyResponse);
 
         // act
-        await dataSourceImpl.updateGroceryList(groceryListModel);
+        await dataSourceImpl.updateGroceryList(
+            groceryListModel.id, groceryListModel);
         // assert
         verify(mockDioClient.put(any, groceryListModel.toJson()));
       },
@@ -180,7 +181,9 @@ void main() {
             .thenThrow(Failure("Not Found"));
 
         // assert
-        expect(dataSourceImpl.updateGroceryList(groceryListModel),
+        expect(
+            dataSourceImpl.updateGroceryList(
+                groceryListModel.id, groceryListModel),
             throwsA(isInstanceOf<Failure>()));
       },
     );

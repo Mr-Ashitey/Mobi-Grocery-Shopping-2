@@ -13,7 +13,7 @@ abstract class GroceryListLocalDataSource {
 
   Future<void> addGroceryList(GroceryListModel groceryList);
 
-  Future<void> updateGroceryList(GroceryListModel groceryList);
+  Future<void> updateGroceryList(int id, GroceryListModel groceryList);
 
   Future<void> deleteGroceryList(int id);
 }
@@ -79,13 +79,12 @@ class GroceryListLocalDataSourceImpl implements GroceryListLocalDataSource {
   }
 
   @override
-  Future<void> updateGroceryList(GroceryListModel groceryList) async {
+  Future<void> updateGroceryList(int id, GroceryListModel groceryList) async {
     try {
       final jsonStr = await _loadJsonFile();
       final List<dynamic> jsonList = _decoder.convert(jsonStr);
 
-      final index = jsonList
-          .indexWhere((json) => int.parse(json['id']) == groceryList.id);
+      final index = jsonList.indexWhere((json) => int.parse(json['id']) == id);
       if (index != -1) {
         jsonList[index] = groceryList.toJson();
         await _saveJsonFile(jsonEncode(jsonList));

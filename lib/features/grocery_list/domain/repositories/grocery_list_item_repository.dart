@@ -14,7 +14,7 @@ abstract class GroceryListItemRepository {
       int groceryListId, GroceryListItemEntity groceryListItem);
 
   Future<Either<Failure, void>> updateGroceryListItem(
-      int groceryListId, GroceryListItemEntity groceryListItem);
+      int groceryListId, int id, GroceryListItemEntity groceryListItem);
 
   Future<Either<Failure, void>> deleteGroceryListItem(
       int groceryListId, int id);

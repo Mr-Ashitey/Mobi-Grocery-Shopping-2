@@ -106,7 +106,7 @@ void main() {
 
         // act
         await dataSourceImpl.updateGroceryListItem(
-            groceryListId, groceryListItem);
+            groceryListId, groceryListItem.id, groceryListItem);
         // assert
         verify(mockDioClient.put(any, groceryListItem.toJson()));
       },
@@ -187,7 +187,7 @@ void main() {
         // assert
         expect(
             dataSourceImpl.updateGroceryListItem(
-                groceryListId, groceryListItem),
+                groceryListId, groceryListItem.id, groceryListItem),
             throwsA(isInstanceOf<Failure>()));
       },
     );
