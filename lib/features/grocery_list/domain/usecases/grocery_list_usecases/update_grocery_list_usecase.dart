@@ -5,12 +5,12 @@ import '../../entities/grocery_list_entity.dart';
 import '../../repositories/grocery_list_repository.dart';
 
 class UpdateGroceryListUseCase {
-  final GroceryListRepository repository;
+  final GroceryListRepository _repository;
 
-  UpdateGroceryListUseCase(this.repository);
+  UpdateGroceryListUseCase(this._repository);
 
   Future<Either<Failure, void>> call(
       int id, GroceryListEntity groceryList) async {
-    return await repository.updateGroceryList(id, groceryList);
+    return await _repository.updateGroceryList(id, groceryList);
   }
 }

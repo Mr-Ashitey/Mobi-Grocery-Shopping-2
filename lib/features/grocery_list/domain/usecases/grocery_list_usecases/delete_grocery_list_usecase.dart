@@ -4,11 +4,11 @@ import '../../../../../core/error/failure.dart';
 import '../../repositories/grocery_list_repository.dart';
 
 class DeleteGroceryListUseCase {
-  final GroceryListRepository repository;
+  final GroceryListRepository _repository;
 
-  DeleteGroceryListUseCase(this.repository);
+  DeleteGroceryListUseCase(this._repository);
 
   Future<Either<Failure, void>> call(int id) async {
-    return await repository.deleteGroceryList(id);
+    return await _repository.deleteGroceryList(id);
   }
 }

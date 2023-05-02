@@ -5,12 +5,12 @@ import '../../../../../core/error/failure.dart';
 import '../../repositories/grocery_list_item_repository.dart';
 
 class GetGroceryListItemsUseCase {
-  final GroceryListItemRepository repository;
+  final GroceryListItemRepository _repository;
 
-  GetGroceryListItemsUseCase(this.repository);
+  GetGroceryListItemsUseCase(this._repository);
 
   Future<Either<Failure, List<GroceryListItemEntity>>> call(
       int groceryListId) async {
-    return await repository.getGroceryListItems(groceryListId);
+    return await _repository.getGroceryListItems(groceryListId);
   }
 }
