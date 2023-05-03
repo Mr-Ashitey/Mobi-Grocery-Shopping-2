@@ -51,7 +51,7 @@ class GroceryListRepositoryImpl extends GroceryListRepository {
             await groceryListRemoteDataSource.getGroceryLists();
         return Right(groceryLists);
       }
-      return const Right(<GroceryListModel>[]);
+      return Left(Failure('No Internet'));
     } catch (e) {
       return Left(Failure(e.toString()));
     }
