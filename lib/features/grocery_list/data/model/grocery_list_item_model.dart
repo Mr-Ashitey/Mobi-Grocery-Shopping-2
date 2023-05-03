@@ -6,21 +6,25 @@ part 'grocery_list_item_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class GroceryListItemModel extends GroceryListItemEntity {
-  @JsonKey(fromJson: _fromJsonId, name: "id")
-  final int groceryListItemId;
+  @JsonKey(fromJson: _fromJsonId, name: "id", includeToJson: false)
+  final int? groceryListItemId;
 
   @JsonKey(name: "name")
   final String groceryListItemName;
 
-  @JsonKey(name: "isCollected")
+  @JsonKey(name: "collected")
   final bool groceryListItemIsCollected;
 
+  @JsonKey(name: "grocery_list_id")
+  final int? groceryListId;
+
   const GroceryListItemModel({
-    required this.groceryListItemId,
+    this.groceryListItemId,
     required this.groceryListItemName,
     this.groceryListItemIsCollected = false,
+    this.groceryListId,
   }) : super(
-            id: groceryListItemId,
+            id: groceryListItemId ?? 0,
             name: groceryListItemName,
             isCollected: groceryListItemIsCollected);
 
