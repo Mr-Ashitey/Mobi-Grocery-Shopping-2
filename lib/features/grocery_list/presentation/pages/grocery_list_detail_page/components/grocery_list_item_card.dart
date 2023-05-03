@@ -8,7 +8,7 @@ import '../../../../../../helpers/alert/show_progress_dialog.dart';
 import '../../../../../../helpers/alert/show_snack_alert.dart';
 import '../../../../data/model/grocery_list_item_model.dart';
 import '../../../provider/grocery_manager.dart';
-import 'add_edit_grocery_list_item.dart';
+import 'dialog_component/add_edit_grocery_list_item.dart';
 
 class GroceryListItemCard extends StatelessWidget {
   final GroceryListItemEntity item;
