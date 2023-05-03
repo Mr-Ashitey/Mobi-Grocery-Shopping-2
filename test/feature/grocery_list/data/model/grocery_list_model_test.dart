@@ -35,9 +35,7 @@ void main() {
   test('GroceryListModel should be able to be converted to JSON', () {
     final json = groceryListModel.toJson();
 
-    expect(json['id'], 1);
     expect(json['name'], 'My Grocery List');
-    expect(json['groceryListItems'].length, 2);
   });
 
   test(
@@ -74,7 +72,7 @@ void main() {
     final json = {
       'id': 1,
       'name': 'My Grocery List',
-      'groceryListItems': [
+      'grocery_list_item': [
         {
           'id': 1,
           'name': 'Milk',

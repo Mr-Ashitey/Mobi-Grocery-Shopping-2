@@ -7,6 +7,7 @@ void main() {
     groceryListItemId: 1,
     groceryListItemName: 'Milk',
     groceryListItemIsCollected: false,
+    groceryListId: 1,
   );
   test("GrcoeryListItemModel should be a subclass of GroceryListItemEntity",
       () {
@@ -22,10 +23,9 @@ void main() {
 
   test('GroceryListItemModel should be able to be converted to JSON', () {
     final json = groceryListItemModel.toJson();
-
-    expect(json['id'], 1);
     expect(json['name'], 'Milk');
-    expect(json['isCollected'], false);
+    expect(json['collected'], false);
+    expect(json['grocery_list_id'], 1);
   });
 
   // test(
