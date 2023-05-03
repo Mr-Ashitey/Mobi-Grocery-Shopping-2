@@ -40,9 +40,9 @@ dependencies:
   internet_connection_checker: ^1.0.0+1
   json_annotation: ^4.8.0
   provider: ^6.0.5
+  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
-  flutter_dotenv: ^5.0.2
   build_runner: ^2.3.3
   flutter_lints: ^2.0.0
   flutter_test:
