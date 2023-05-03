@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobi_grocery_shopping_2/core/error/failure.dart';
 
 import 'dio_exception.dart';
@@ -12,10 +13,11 @@ class DioClient {
   DioClient() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: "",
+        baseUrl: dotenv.env['API_URL']!,
         headers: <String, String>{
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.acceptHeader: "application/json"
+          HttpHeaders.acceptHeader: "application/json",
+          "apikey": dotenv.env['API_KEY']!
         },
       ),
     );
@@ -49,13 +51,12 @@ class DioClient {
     }
   }
 
-  // put endpoint
-  Future<Response> put(String endpoint, [Map<String, dynamic>? body]) async {
+  // patch endpoint
+  Future<Response> patch(String endpoint, [Map<String, dynamic>? body]) async {
     Response response;
 
     try {
-      response = await _dio.put(endpoint, data: body);
-
+      response = await _dio.patch(endpoint, data: body);
       return response;
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
