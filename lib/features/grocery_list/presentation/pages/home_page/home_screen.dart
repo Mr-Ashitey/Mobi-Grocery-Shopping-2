@@ -3,6 +3,7 @@ import 'package:mobi_grocery_shopping_2/features/grocery_list/presentation/pages
 import 'package:mobi_grocery_shopping_2/features/grocery_list/presentation/provider/grocery_manager.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../helpers/alert/custom_progress_dialog.dart';
 import 'components/dialog_component/add_grocery_list_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Create an instance variable.
+  // Create instance variables.
   late final Future getGroceryListsFuture;
   late TextEditingController controller;
 
@@ -39,10 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
         // future: getGroceryListsFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const CustomProgressIndicator();
           }
+          
           if (snapshot.hasError) {
             return Center(
               child: Text(snapshot.error.toString()),

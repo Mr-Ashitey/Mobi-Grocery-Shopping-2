@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/presentation/pages/grocery_list_detail_page/components/grocery_list_item_card.dart';
+import 'package:mobi_grocery_shopping_2/helpers/alert/custom_progress_dialog.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/grocery_manager.dart';
@@ -34,7 +35,7 @@ class _ViewGroceryListScreenState extends State<ViewGroceryListScreen> {
         builder: (context, provider, child) {
           final groceryList = provider.groceryList;
           if (groceryList == null) {
-            return const Center(child: CircularProgressIndicator());
+            return const CustomProgressIndicator();
           }
 
           return ListView.builder(

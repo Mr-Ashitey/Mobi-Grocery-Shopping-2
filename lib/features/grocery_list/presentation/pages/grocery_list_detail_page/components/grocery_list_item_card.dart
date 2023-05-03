@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/entities/grocery_list_item_entity.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../../helpers/alert/show_progress_dialog.dart';
+import '../../../../../../helpers/alert/custom_progress_dialog.dart';
 import '../../../../../../helpers/alert/show_snack_alert.dart';
 import '../../../../data/model/grocery_list_item_model.dart';
 import '../../../provider/grocery_manager.dart';
@@ -45,11 +45,7 @@ class GroceryListItemCard extends StatelessWidget {
           SlidableAction(
             onPressed: (_) async {
               try {
-                showDialog(
-                    context: context,
-                    builder: (_) {
-                      return const CircularProgressIndicator.adaptive();
-                    });
+                showProgressDialog(context);
                 await context
                     .read<GroceryManager>()
                     .deleteGroceryListItem(groceryListId, item.id);

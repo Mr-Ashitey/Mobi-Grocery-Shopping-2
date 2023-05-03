@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobi_grocery_shopping_2/helpers/alert/custom_progress_dialog.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../../helpers/alert/show_snack_alert.dart';
@@ -28,7 +29,7 @@ class AddGroceryListDialog extends StatelessWidget {
       ),
       actions: [
         context.watch<GroceryManager>().notifierState == NotifierState.loading
-            ? const CircularProgressIndicator.adaptive()
+            ? const CustomProgressIndicator()
             : TextButton.icon(
                 key: const Key('add_new_list_btn'),
                 onPressed: () async {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/presentation/provider/grocery_manager.dart';
+import 'package:mobi_grocery_shopping_2/helpers/alert/custom_progress_dialog.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../../helpers/alert/show_snack_alert.dart';
@@ -31,7 +32,7 @@ class AddEditGroceryListItem extends StatelessWidget {
       ),
       content:
           context.watch<GroceryManager>().notifierState == NotifierState.loading
-              ? const CircularProgressIndicator.adaptive()
+              ? const CustomProgressIndicator()
               : Autocomplete<GroceryListItemModel>(
                   displayStringForOption: (groceryItem) => groceryItem.name,
                   optionsBuilder: (textEditingValue) {
