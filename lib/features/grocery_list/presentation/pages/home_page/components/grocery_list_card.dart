@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/data/model/grocery_list_model.dart';
 
 import '../../../../../../config/route_path.dart';
-import 'dialogs/manage_grocery_list.dart';
+import 'dialog_component/manage_grocery_list_dialog.dart';
 
 class GroceryListCard extends StatelessWidget {
   final GroceryListModel groceryList;
