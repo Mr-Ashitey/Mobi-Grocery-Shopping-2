@@ -1,12 +1,10 @@
 import 'package:mobi_grocery_shopping_2/core/api/dio_client.dart';
 
-import '../../../../../core/error/failure.dart';
-import '../../model/grocery_list_model.dart';
+import '../../../../core/error/failure.dart';
+import '../model/grocery_list_model.dart';
 
 abstract class GroceryListRemoteDataSource {
   Future<List<GroceryListModel>> getGroceryLists();
-
-  Future<GroceryListModel> getGroceryList(int id);
 
   Future<void> addGroceryList(GroceryListModel groceryList);
 
@@ -23,7 +21,7 @@ class GrcoeryListRemoteDataSourceImpl implements GroceryListRemoteDataSource {
   @override
   Future<void> addGroceryList(GroceryListModel groceryList) async {
     try {
-      await _dioClient.post("/api", groceryList.toJson());
+      await _dioClient.post("/grocery_list", groceryList.toJson());
     } on Failure {
       rethrow;
     }
@@ -32,17 +30,7 @@ class GrcoeryListRemoteDataSourceImpl implements GroceryListRemoteDataSource {
   @override
   Future<void> deleteGroceryList(int id) async {
     try {
-      await _dioClient.delete("/api");
-    } on Failure {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<GroceryListModel> getGroceryList(int id) async {
-    try {
-      final response = await _dioClient.get("/api");
-      return GroceryListModel.fromJson(response.data);
+      await _dioClient.delete("/grocery_list?id=eq.$id");
     } on Failure {
       rethrow;
     }
@@ -51,10 +39,10 @@ class GrcoeryListRemoteDataSourceImpl implements GroceryListRemoteDataSource {
   @override
   Future<List<GroceryListModel>> getGroceryLists() async {
     try {
-      final response = await _dioClient.get("/api");
+      final response = await _dioClient.get(
+          "/grocery_list?select=id,name,grocery_list_item(id,name,collected)");
       final groceryLists = response.data
           .map((groceryList) {
-            // print("look:$groceryList");
             return GroceryListModel.fromJson(
                 groceryList as Map<String, dynamic>);
           })
@@ -70,7 +58,7 @@ class GrcoeryListRemoteDataSourceImpl implements GroceryListRemoteDataSource {
   @override
   Future<void> updateGroceryList(int id, GroceryListModel groceryList) async {
     try {
-      await _dioClient.put("/api", groceryList.toJson());
+      await _dioClient.patch("/grocery_list?id=eq.$id", groceryList.toJson());
     } on Failure {
       rethrow;
     }

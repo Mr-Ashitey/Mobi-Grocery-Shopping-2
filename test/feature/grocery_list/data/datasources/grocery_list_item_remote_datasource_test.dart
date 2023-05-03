@@ -2,12 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobi_grocery_shopping_2/core/api/dio_client.dart';
 import 'package:mobi_grocery_shopping_2/core/error/failure.dart';
-import 'package:mobi_grocery_shopping_2/features/grocery_list/data/datasources/grocery_list_item_datasource/grocery_list_item_remote_datasource.dart';
+import 'package:mobi_grocery_shopping_2/features/grocery_list/data/datasources/grocery_list_item_remote_datasource.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/data/model/grocery_list_item_model.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import '../grocery_list_datasource/grocery_list_remote_datasource_test.mocks.dart';
+import 'grocery_list_item_remote_datasource_test.mocks.dart';
 
 @GenerateMocks([DioClient])
 void main() {
@@ -19,7 +19,6 @@ void main() {
     dataSourceImpl = GrcoeryListItemRemoteDataSourceImpl(mockDioClient);
   });
 
-  const groceryListId = 1;
   const groceryListItem =
       GroceryListItemModel(groceryListItemId: 1, groceryListItemName: "Apple");
 // Create a mock GroceryListModel.
@@ -52,7 +51,7 @@ void main() {
             .thenAnswer((_) async => emptyResponse);
 
         // act
-        await dataSourceImpl.addGroceryListItem(groceryListId, groceryListItem);
+        await dataSourceImpl.addGroceryListItem(groceryListItem);
 
         // assert
         verify(mockDioClient.post(any, groceryListItem.toJson()));
@@ -66,49 +65,22 @@ void main() {
         when(mockDioClient.delete(any)).thenAnswer((_) async => emptyResponse);
 
         // act
-        await dataSourceImpl.deleteGroceryListItem(
-            groceryListId, groceryListItem.id);
+        await dataSourceImpl.deleteGroceryListItem(groceryListItem.id);
         // assert
         verify(mockDioClient.delete(any));
-      },
-    );
-    test(
-      'should get a single GroceryListModel when the response code is 200 (success)',
-      () async {
-        // arrange
-        when(mockDioClient.get(any)).thenAnswer((_) async => successResponse);
-
-        // act
-        final result = await dataSourceImpl.getGroceryListItem(
-            groceryListId, groceryListItem.id);
-        // assert
-        expect(result, equals(groceryListItem));
-      },
-    );
-    test(
-      'should get a List<GroceryListModel> when the response code is 200 (success)',
-      () async {
-        // arrange
-        when(mockDioClient.get(any)).thenAnswer((_) async => successResponse2);
-
-        // act
-        final result = await dataSourceImpl.getGroceryListItems(groceryListId);
-        // assert
-        expect(result, equals(groceryListItems));
       },
     );
     test(
       'should update a GroceryListItemModel when the response code is 200 (success)',
       () async {
         // arrange
-        when(mockDioClient.put(any, groceryListItem.toJson()))
+        when(mockDioClient.patch(any, groceryListItem.toJson()))
             .thenAnswer((_) async => emptyResponse);
 
         // act
-        await dataSourceImpl.updateGroceryListItem(
-            groceryListId, groceryListItem.id, groceryListItem);
+        await dataSourceImpl.updateGroceryListItem(groceryListItem);
         // assert
-        verify(mockDioClient.put(any, groceryListItem.toJson()));
+        verify(mockDioClient.patch(any, groceryListItem.toJson()));
       },
     );
   });
@@ -122,8 +94,7 @@ void main() {
             .thenThrow(Failure("Not Found"));
 
         // assert
-        expect(
-            dataSourceImpl.addGroceryListItem(groceryListId, groceryListItem),
+        expect(dataSourceImpl.addGroceryListItem(groceryListItem),
             throwsA(isInstanceOf<Failure>()));
       },
     );
@@ -134,9 +105,7 @@ void main() {
         when(mockDioClient.delete(any)).thenThrow(Failure("Not Found"));
 
         // assert
-        expect(
-            dataSourceImpl.deleteGroceryListItem(
-                groceryListId, groceryListItem.id),
+        expect(dataSourceImpl.deleteGroceryListItem(groceryListItem.id),
             throwsA(isInstanceOf<Failure>()));
       },
     );
@@ -148,32 +117,7 @@ void main() {
             .thenThrow(Failure("Not Found"));
 
         // assert
-        expect(
-            dataSourceImpl.addGroceryListItem(groceryListId, groceryListItem),
-            throwsA(isInstanceOf<Failure>()));
-      },
-    );
-    test(
-      'should throw a Failure on getting a single GroceryListItemModel when the response code is 404 or other',
-      () async {
-        // arrange
-        when(mockDioClient.get(any)).thenThrow(Failure("Not Found"));
-
-        // assert
-        expect(
-            dataSourceImpl.getGroceryListItem(
-                groceryListId, groceryListItem.id),
-            throwsA(isInstanceOf<Failure>()));
-      },
-    );
-    test(
-      'should throw a Failure on getting a List<GroceryListItemModel> when the response code is 404 or other',
-      () async {
-        // arrange
-        when(mockDioClient.get(any)).thenThrow(Failure("Not Found"));
-
-        // assert
-        expect(dataSourceImpl.getGroceryListItems(groceryListId),
+        expect(dataSourceImpl.addGroceryListItem(groceryListItem),
             throwsA(isInstanceOf<Failure>()));
       },
     );
@@ -181,13 +125,11 @@ void main() {
       'should throw a Failure on updating a GroceryListItemModel when the response code is 404 or other',
       () async {
         // arrange
-        when(mockDioClient.put(any, groceryListItem.toJson()))
+        when(mockDioClient.patch(any, groceryListItem.toJson()))
             .thenThrow(Failure("Not Found"));
 
         // assert
-        expect(
-            dataSourceImpl.updateGroceryListItem(
-                groceryListId, groceryListItem.id, groceryListItem),
+        expect(dataSourceImpl.updateGroceryListItem(groceryListItem),
             throwsA(isInstanceOf<Failure>()));
       },
     );

@@ -2,13 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobi_grocery_shopping_2/core/api/dio_client.dart';
 import 'package:mobi_grocery_shopping_2/core/error/failure.dart';
-import 'package:mobi_grocery_shopping_2/features/grocery_list/data/datasources/grocery_list_datasource/grocery_list_remote_datasource.dart';
+import 'package:mobi_grocery_shopping_2/features/grocery_list/data/datasources/grocery_list_remote_datasource.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/data/model/grocery_list_item_model.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/data/model/grocery_list_model.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'grocery_list_remote_datasource_test.mocks.dart';
+import 'grocery_list_item_remote_datasource_test.mocks.dart';
 
 @GenerateMocks([DioClient])
 void main() {
@@ -30,17 +30,33 @@ void main() {
       GroceryListItemModel(groceryListItemId: 3, groceryListItemName: "Orange")
     ],
   );
-  final groceryListModelList = [groceryListModel, groceryListModel];
-
-  final successResponse = Response(
-    requestOptions: RequestOptions(),
-    data: groceryListModel.toJson(),
-    // "{'id': 1,'name': 'Grocery List','groceryListItems': '[{'id': 1, 'name': 'Apple'}, {'id': 2, 'name': 'Banana'},{'id': 3, 'name': 'Orange'})]}",
-    statusCode: 200,
+  const groceryListModel2 = GroceryListModel(
+    groceryListId: 1,
+    groceryListName: 'Grocery List 2',
+    groceryListItemsModel: [
+      GroceryListItemModel(groceryListItemId: 1, groceryListItemName: "Apple2"),
+      GroceryListItemModel(
+          groceryListItemId: 2, groceryListItemName: "Banana2"),
+      GroceryListItemModel(groceryListItemId: 3, groceryListItemName: "Orange2")
+    ],
   );
+  final groceryListModelList = [groceryListModel, groceryListModel2];
+
   final successResponse2 = Response(
     statusCode: 200,
-    data: groceryListModelList.map((list) => list.toJson()).toList(),
+    data: groceryListModelList
+        .map((list) => <String, dynamic>{
+              'id': list.id,
+              'name': list.groceryListName,
+              'grocery_list_item': (list.groceryListItemsModel)
+                  .map((e) => <String, dynamic>{
+                        "id": e.id,
+                        "name": e.name,
+                        "collected": e.isCollected
+                      })
+                  .toList()
+            })
+        .toList(),
     requestOptions: RequestOptions(),
   );
   final emptyResponse = Response(requestOptions: RequestOptions());
@@ -69,28 +85,15 @@ void main() {
         when(mockDioClient.delete(any)).thenAnswer((_) async => emptyResponse);
 
         // act
-        await dataSourceImpl.deleteGroceryList(groceryListModel.id);
+        await dataSourceImpl.deleteGroceryList(groceryListModel.id!);
         // assert
         verify(mockDioClient.delete(any));
-      },
-    );
-    test(
-      'should get a single GroceryListModel when the response code is 200 (success)',
-      () async {
-        // arrange
-        when(mockDioClient.get(any)).thenAnswer((_) async => successResponse);
-
-        // act
-        final result = await dataSourceImpl.getGroceryList(groceryListModel.id);
-        // assert
-        expect(result, equals(groceryListModel));
       },
     );
     test(
       'should get a List<GroceryListModel> when the response code is 200 (success)',
       () async {
         // arrange
-
         when(mockDioClient.get(any)).thenAnswer((_) async => successResponse2);
 
         // act
@@ -103,14 +106,14 @@ void main() {
       'should update a GroceryListModel when the response code is 200 (success)',
       () async {
         // arrange
-        when(mockDioClient.put(any, groceryListModel.toJson()))
+        when(mockDioClient.patch(any, groceryListModel.toJson()))
             .thenAnswer((_) async => emptyResponse);
 
         // act
         await dataSourceImpl.updateGroceryList(
-            groceryListModel.id, groceryListModel);
+            groceryListModel.id!, groceryListModel);
         // assert
-        verify(mockDioClient.put(any, groceryListModel.toJson()));
+        verify(mockDioClient.patch(any, groceryListModel.toJson()));
       },
     );
   });
@@ -135,7 +138,7 @@ void main() {
         when(mockDioClient.delete(any)).thenThrow(Failure("Not Found"));
 
         // assert
-        expect(dataSourceImpl.deleteGroceryList(groceryListModel.id),
+        expect(dataSourceImpl.deleteGroceryList(groceryListModel.id!),
             throwsA(isInstanceOf<Failure>()));
       },
     );
@@ -148,17 +151,6 @@ void main() {
 
         // assert
         expect(dataSourceImpl.addGroceryList(groceryListModel),
-            throwsA(isInstanceOf<Failure>()));
-      },
-    );
-    test(
-      'should throw a Failure on getting a single GroceryListModel when the response code is 404 or other',
-      () async {
-        // arrange
-        when(mockDioClient.get(any)).thenThrow(Failure("Not Found"));
-
-        // assert
-        expect(dataSourceImpl.getGroceryList(groceryListModel.id),
             throwsA(isInstanceOf<Failure>()));
       },
     );
@@ -177,13 +169,13 @@ void main() {
       'should throw a Failure on updating a GroceryListModel when the response code is 404 or other',
       () async {
         // arrange
-        when(mockDioClient.put(any, groceryListModel.toJson()))
+        when(mockDioClient.patch(any, groceryListModel.toJson()))
             .thenThrow(Failure("Not Found"));
 
         // assert
         expect(
             dataSourceImpl.updateGroceryList(
-                groceryListModel.id, groceryListModel),
+                groceryListModel.id!, groceryListModel),
             throwsA(isInstanceOf<Failure>()));
       },
     );
