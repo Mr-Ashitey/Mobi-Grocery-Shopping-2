@@ -42,10 +42,13 @@ class _HomeScreenState extends State<HomeScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CustomProgressIndicator();
           }
-          
+
           if (snapshot.hasError) {
             return Center(
-              child: Text(snapshot.error.toString()),
+              child: Text(
+                snapshot.error.toString(),
+                style: const TextStyle(fontSize: 30),
+              ),
             );
           }
 
