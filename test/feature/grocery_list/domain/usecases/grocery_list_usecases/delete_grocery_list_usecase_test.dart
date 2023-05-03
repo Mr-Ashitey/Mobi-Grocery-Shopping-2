@@ -16,7 +16,7 @@ void main() {
         DeleteGroceryListUseCase(mockGroceryListRepository);
   });
 
-  final groceryListEntity = GroceryListEntity(
+  const groceryListEntity = GroceryListEntity(
     id: 1234567890,
     name: 'My Grocery List',
     groceryListItems: [],
@@ -27,7 +27,7 @@ void main() {
         .thenAnswer((_) async => const Right(null));
 
     // Act
-    await deleteGroceryListUseCase.call(groceryListEntity.id);
+    await deleteGroceryListUseCase.call(groceryListEntity.id!);
 
     // Assert
     verify(mockGroceryListRepository.deleteGroceryList(groceryListEntity.id));

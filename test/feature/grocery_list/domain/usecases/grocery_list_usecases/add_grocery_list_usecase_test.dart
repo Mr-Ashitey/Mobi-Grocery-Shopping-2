@@ -19,7 +19,7 @@ void main() {
     addGroceryListUseCase = AddGroceryListUseCase(mockGroceryListRepository);
   });
 
-  final groceryListEntity = GroceryListEntity(
+  const groceryListEntity = GroceryListEntity(
     id: 1234567890,
     name: 'My Grocery List',
     groceryListItems: [],

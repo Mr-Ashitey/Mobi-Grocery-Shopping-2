@@ -34,7 +34,7 @@ void main() {
 
     // Act
     await updateGroceryListUseCase.call(
-        groceryListEntity.id, updatedGroceryListEntity);
+        groceryListEntity.id!, updatedGroceryListEntity);
 
     // Assert
     verify(mockGroceryListRepository.updateGroceryList(

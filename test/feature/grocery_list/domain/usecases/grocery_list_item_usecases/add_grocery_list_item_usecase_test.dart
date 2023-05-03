@@ -19,7 +19,6 @@ void main() {
     addGroceryListItemUseCase =
         AddGroceryListItemUseCase(mockGroceryListItemRepository);
   });
-  const groceryListId = 1;
   const groceryListItemId = 1234567890;
   const groceryListItemName = 'Milk';
   const groceryListItemIsComplete = false;
@@ -32,14 +31,14 @@ void main() {
 
   test('AddGroceryListItemUseCase should add a grocery list item', () async {
     // Arrange
-    when(mockGroceryListItemRepository.addGroceryListItem(any, any))
+    when(mockGroceryListItemRepository.addGroceryListItem(any))
         .thenAnswer((_) async => const Right(null));
 
     // Act
-    await addGroceryListItemUseCase.call(groceryListId, groceryListItemEntity);
+    await addGroceryListItemUseCase.call(groceryListItemEntity);
 
     // Assert
-    verify(mockGroceryListItemRepository.addGroceryListItem(
-        groceryListId, groceryListItemEntity));
+    verify(mockGroceryListItemRepository
+        .addGroceryListItem(groceryListItemEntity));
   });
 }

@@ -14,18 +14,17 @@ void main() {
     deleteGroceryListItemUseCase =
         DeleteGroceryListItemUseCase(mockGroceryListItemRepository);
   });
-  const groceryListId = 1234567890;
   const groceryListItemId = 999999999;
   test('DeleteGroceryListItemUseCase should delete a grocery list item',
       () async {
     // Arrange
-    when(mockGroceryListItemRepository.deleteGroceryListItem(any, any))
+    when(mockGroceryListItemRepository.deleteGroceryListItem(any))
         .thenAnswer((_) async => const Right(null));
 
     // Act
-    await deleteGroceryListItemUseCase.call(groceryListId, groceryListItemId);
+    await deleteGroceryListItemUseCase.call(groceryListItemId);
 
     // Assert
-    verify(mockGroceryListItemRepository.deleteGroceryListItem(any, any));
+    verify(mockGroceryListItemRepository.deleteGroceryListItem(any));
   });
 }

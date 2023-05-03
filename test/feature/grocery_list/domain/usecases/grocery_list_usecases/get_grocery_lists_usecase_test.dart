@@ -14,13 +14,13 @@ void main() {
     mockGroceryListRepository = MockGroceryListRepository();
     getGroceryListsUseCase = GetGroceryListsUseCase(mockGroceryListRepository);
   });
-  final expectedGroceryListEntity1 = GroceryListEntity(
+  const expectedGroceryListEntity1 = GroceryListEntity(
     id: 1234567890,
     name: 'My Grocery List',
     groceryListItems: [],
   );
 
-  final expectedGroceryListEntity2 = GroceryListEntity(
+  const expectedGroceryListEntity2 = GroceryListEntity(
     id: 9876543210,
     name: 'Other Grocery List',
     groceryListItems: [],
