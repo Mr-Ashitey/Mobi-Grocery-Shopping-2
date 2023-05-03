@@ -6,8 +6,6 @@ import '../../../../core/error/failure.dart';
 abstract class GroceryListRepository {
   Future<Either<Failure, List<GroceryListEntity>>> getGroceryLists();
 
-  Future<Either<Failure, GroceryListEntity>> getGroceryList(int id);
-
   Future<Either<Failure, void>> addGroceryList(GroceryListEntity groceryList);
 
   Future<Either<Failure, void>> updateGroceryList(
