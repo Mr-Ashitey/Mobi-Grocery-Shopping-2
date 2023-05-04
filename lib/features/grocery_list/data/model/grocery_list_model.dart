@@ -41,4 +41,6 @@ class GroceryListModel extends GroceryListEntity {
 
   int get numItemsCollected =>
       groceryListItems.where((item) => item.isCollected).toList().length;
+  int get numItemsNotCollected =>
+      groceryListItems.where((item) => !item.isCollected).toList().length;
 }
