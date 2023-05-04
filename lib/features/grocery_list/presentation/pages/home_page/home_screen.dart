@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/presentation/pages/home_page/components/grocery_list_card.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/presentation/provider/grocery_manager.dart';
+import 'package:mobi_grocery_shopping_2/features/grocery_list/presentation/widgets/screen_placeholder.dart';
 import 'package:mobi_grocery_shopping_2/helpers/alert/custom_progress_dialog.dart';
 import 'package:mobi_grocery_shopping_2/helpers/alert/show_snack_alert.dart';
 import 'package:provider/provider.dart';
@@ -63,6 +64,10 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Consumer<GroceryManager>(
         builder: (context, provider, _) {
           final groceryLists = provider.groceryLists;
+          if (groceryLists.isEmpty) {
+            return const ScreenPlaceHolder(title: "Start Shopping...");
+          }
+
           return ListView.builder(
             itemCount: groceryLists.length,
             itemBuilder: (context, index) {

@@ -4,6 +4,7 @@ import 'package:mobi_grocery_shopping_2/helpers/alert/custom_progress_dialog.dar
 import 'package:provider/provider.dart';
 
 import '../../provider/grocery_manager.dart';
+import '../../widgets/screen_placeholder.dart';
 import 'components/dialog_component/add_edit_grocery_list_item.dart';
 import 'components/grocery_list_item_info.dart';
 
@@ -37,8 +38,12 @@ class _ViewGroceryListScreenState extends State<ViewGroceryListScreen> {
       body: Consumer<GroceryManager>(
         builder: (context, provider, child) {
           final groceryList = provider.groceryList;
+
           if (groceryList == null) {
             return const CustomProgressIndicator();
+          }
+          if (groceryList.groceryListItems.isEmpty) {
+            return const ScreenPlaceHolder(title: "Add and Track Items");
           }
 
           return ListView.builder(
