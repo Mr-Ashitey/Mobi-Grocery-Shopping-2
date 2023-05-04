@@ -20,15 +20,15 @@ Next, start an Android emulator or connect a physical Android device to your com
 
 -- The application is a simple Flutter application that displays a list of grocery lists. A grocery list can be added, renamed and deleted.
 
-    1. To add a grocery list, tap the **"Floating Plus"** button. Enter the name of the grocery list and tap the "Add New List" button.
+    1. To add a grocery list, tap the __"Floating Plus"__ button. Enter the name of the grocery list and tap the "Add New List" button.
 
-    2. To rename or delete a grocery list, tap the **"More"** icon on the grocery list card and rename or delete it.
+    2. To rename or delete a grocery list, tap the __"More"__ icon on the grocery list card and rename or delete it.
 
     3. To view the grocery list items of a particular grocery list, tap on the gorcery list card.
 
-    4. To add a grocery list item, tap the **"Floating 'Add'"** button. Enter the name of the grocery list item and tap the "Add Shopping Item" button.
+    4. To add a grocery list item, tap the __"Floating 'Add'"__ button. Enter the name of the grocery list item and tap the "Add Shopping Item" button.
 
-    5. To rename or delete a grocery list item, slide to the left of that particular grocery list item tap on the **"Edit"** or **"Delete"** icon and proceed to edit or delete that grocery list item.
+    5. To rename or delete a grocery list item, slide to the left of that particular grocery list item tap on the __"Edit"__ or __"Delete"__ icon and proceed to edit or delete that grocery list item.
 
 
 ## Running Tests
