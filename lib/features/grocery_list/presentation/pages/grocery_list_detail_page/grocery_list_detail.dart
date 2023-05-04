@@ -29,7 +29,7 @@ class _ViewGroceryListScreenState extends State<ViewGroceryListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final groceryList = context.read<GroceryManager>().groceryList;
+    final groceryList = context.watch<GroceryManager>().groceryList;
     return Scaffold(
       appBar: AppBar(
         title: Text(groceryList?.name ?? ""),
