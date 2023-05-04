@@ -40,19 +40,42 @@ class GroceryListCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    groceryList.name,
-                    style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  RichText(
+                    text: TextSpan(children: [
+                      TextSpan(
+                          text: groceryList.name,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          )),
+                      WidgetSpan(
+                        child: Transform.translate(
+                          offset: const Offset(2, -7),
+                          child: Text(
+                            " ${groceryList.groceryListItems.length}",
+                            //superscript is usually smaller in size
+                            // textScaleFactor: 0.7,
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      )
+                    ]),
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    '${groceryList.groceryListItems.length} items',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                  SizedBox(
+                    width: 150,
+                    child: LinearProgressIndicator(
+                      value: groceryList.groceryListItems.isEmpty
+                          ? 0
+                          : groceryList.numItemsCollected /
+                              groceryList.numItems,
+                      minHeight: 5,
+                      backgroundColor: Colors.grey[200],
+                      color: Colors.black,
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Colors.black,
+                      ),
                     ),
                   ),
                 ],
