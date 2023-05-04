@@ -25,9 +25,7 @@ class ListItemsInfo extends StatelessWidget {
                 if (groceryList != null &&
                     groceryList!.groceryListItems.isNotEmpty)
                   Text(
-                    (groceryList!.numItemsCollected / groceryList!.numItems)
-                        .ceil()
-                        .toString(),
+                    groceryList!.numItemsNotCollected.toString(),
                     style: const TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
