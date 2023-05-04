@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/data/model/grocery_list_model.dart';
+import 'package:mobi_grocery_shopping_2/helpers/alert/action_confirmation_dialog.dart';
 import 'package:mobi_grocery_shopping_2/helpers/alert/custom_progress_dialog.dart';
 import 'package:provider/provider.dart';
 
@@ -79,10 +80,22 @@ class ManageGroceryList extends StatelessWidget {
                         key: const Key('delete_grocery_list'),
                         onPressed: () async {
                           try {
-                            // remove grocery list
-                            await context
-                                .read<GroceryManager>()
-                                .deleteGroceryList(groceryList.id!);
+                            final confirmDeletion =
+                                await confirmDialog(context);
+
+                            if (confirmDeletion != null && confirmDeletion) {
+                              // remove grocery list
+                              // ignore: use_build_context_synchronously
+                              await context
+                                  .read<GroceryManager>()
+                                  .deleteGroceryList(groceryList.id!);
+
+                              // ignore: use_build_context_synchronously
+                              showNotification(
+                                  context: context,
+                                  message:
+                                      "${groceryList.name} Deleted Successfully");
+                            }
 
                             // ignore: use_build_context_synchronously
                             context.pop();

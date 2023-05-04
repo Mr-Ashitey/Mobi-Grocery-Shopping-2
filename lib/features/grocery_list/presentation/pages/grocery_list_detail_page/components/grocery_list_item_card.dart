@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/entities/grocery_list_item_entity.dart';
+import 'package:mobi_grocery_shopping_2/helpers/alert/action_confirmation_dialog.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../helpers/alert/custom_progress_dialog.dart';
@@ -45,13 +46,18 @@ class GroceryListItemCard extends StatelessWidget {
           SlidableAction(
             onPressed: (_) async {
               try {
-                showProgressDialog(context);
-                await context
-                    .read<GroceryManager>()
-                    .deleteGroceryListItem(groceryListId, item.id);
+                final confirmDeletion = await confirmDialog(context);
 
-                // ignore: use_build_context_synchronously
-                context.pop();
+                if (confirmDeletion != null && confirmDeletion) {
+                  // ignore: use_build_context_synchronously
+                  showProgressDialog(context);
+                  // ignore: use_build_context_synchronously
+                  await context
+                      .read<GroceryManager>()
+                      .deleteGroceryListItem(groceryListId, item.id);
+                  // ignore: use_build_context_synchronously
+                  context.pop();
+                }
               } catch (error) {
                 context.pop();
                 showNotification(
