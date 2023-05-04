@@ -85,7 +85,7 @@ class GroceryManager extends ChangeNotifier {
         throw failure;
       },
       (_) {
-        _groceryLists.add(groceryList);
+        _groceryLists.insert(0, groceryList);
         _setLoading(NotifierState.loaded);
       },
     );
