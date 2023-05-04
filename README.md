@@ -30,6 +30,9 @@ Next, start an Android emulator or connect a physical Android device to your com
 
     5. To rename or delete a grocery list item, slide to the left of that particular grocery list item tap on the __"Edit"__ or __"Delete"__ icon and proceed to edit or delete that grocery list item.
 
+    6. To mark a grocery list item as completed tap on the checkbox next to the item.
+
+
 
 ## Running Tests
 
