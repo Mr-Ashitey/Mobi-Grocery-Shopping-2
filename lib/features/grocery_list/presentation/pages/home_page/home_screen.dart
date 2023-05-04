@@ -64,8 +64,6 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, provider, _) {
           final groceryLists = provider.groceryLists;
           return ListView.builder(
-            reverse: true,
-            shrinkWrap: true,
             itemCount: groceryLists.length,
             itemBuilder: (context, index) {
               final groceryList = groceryLists[index];
