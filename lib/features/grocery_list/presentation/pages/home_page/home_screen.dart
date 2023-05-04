@@ -17,7 +17,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   // Create instance variables.
-  Future? getGroceryListsFuture;
   late TextEditingController controller;
 
   @override
@@ -25,11 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     controller = TextEditingController();
     fetchGroceryLists();
-  }
-
-  @override
-  void didChangeDependencies() async {
-    super.didChangeDependencies();
   }
 
   @override
