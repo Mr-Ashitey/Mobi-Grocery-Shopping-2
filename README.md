@@ -52,7 +52,27 @@ This will generate an HTML report in the coverage/html directory. You can open t
 
 ## Architecture
 
-The Grocery Shopping App follows the Model-View-ViewModel (MVVM) architecture pattern. The app's data models are defined in the models directory, while the view models are defined in the viewmodels directory. The user interface is defined in the presentation directory.
+The project was built using a feature-based approach with clean architecture principles. This approach promotes modularity, separation of concerns, and maintainability of the codebase. Each feature of the app is treated as a module that contains all necessary components such as screens, widgets, models, and business logic.
+
+The clean architecture principles ensure that the code is testable, loosely coupled, and easy to maintain. The architecture is divided into three layers: Presentation, Domain, and Data.
+
+    - The Presentation layer is responsible for displaying data to the user and handling user interactions. It consists of the widgets and pages that the user interacts with.
+
+    - The Domain layer contains the business logic of the app. It defines the use cases and business rules of the app. The use cases are independent of any specific framework or implementation, making it easier to change the implementation details in the future.
+
+    - The Data layer is responsible for providing data to the app. It consists of repositories that provide data from various sources. The data layer is also responsible for caching and syncing data. This project focused on using the remote data source.
+
+## Technologies Used
+
+    * Flutter
+    * Dart
+    * Supabase
+    * Dio
+    * Get It
+    * Provider
+    * Go Router
+    * JSON Serializable
+
 
 Additional Notes
 
