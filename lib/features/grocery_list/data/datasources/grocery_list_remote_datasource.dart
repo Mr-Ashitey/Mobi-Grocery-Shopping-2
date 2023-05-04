@@ -40,7 +40,7 @@ class GrcoeryListRemoteDataSourceImpl implements GroceryListRemoteDataSource {
   Future<List<GroceryListModel>> getGroceryLists() async {
     try {
       final response = await _dioClient.get(
-          "/grocery_list?select=id,name,grocery_list_item(id,name,collected)&order=id.asc");
+          "/grocery_list?select=id,name,grocery_list_item(id,name,collected)&order=id.desc");
       final groceryLists = response.data
           .map((groceryList) {
             return GroceryListModel.fromJson(
