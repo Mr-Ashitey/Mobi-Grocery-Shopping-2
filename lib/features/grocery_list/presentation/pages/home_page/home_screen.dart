@@ -57,8 +57,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final groceryLists = context.watch<GroceryManager>().groceryLists;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Grocery Lists'),
@@ -68,14 +66,19 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Icons.refresh))
         ],
       ),
-      body: ListView.builder(
-        reverse: true,
-        shrinkWrap: true,
-        itemCount: groceryLists.length,
-        itemBuilder: (context, index) {
-          final groceryList = groceryLists[index];
-          return GroceryListCard(
-              groceryList: groceryList, controller: controller);
+      body: Consumer<GroceryManager>(
+        builder: (context, provider, _) {
+          final groceryLists = provider.groceryLists;
+          return ListView.builder(
+            reverse: true,
+            shrinkWrap: true,
+            itemCount: groceryLists.length,
+            itemBuilder: (context, index) {
+              final groceryList = groceryLists[index];
+              return GroceryListCard(
+                  groceryList: groceryList, controller: controller);
+            },
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(
