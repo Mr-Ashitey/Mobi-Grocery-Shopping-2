@@ -4,7 +4,7 @@ void showProgressDialog(BuildContext context) {
   showDialog(
       context: context,
       builder: (_) {
-        return const CircularProgressIndicator.adaptive();
+        return const Center(child: CircularProgressIndicator.adaptive());
       });
 }
 
