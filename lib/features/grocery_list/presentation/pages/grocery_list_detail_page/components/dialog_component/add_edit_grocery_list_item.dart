@@ -25,77 +25,77 @@ class AddEditGroceryListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String newName = "";
+    bool isLoading =
+        context.watch<GroceryManager>().notifierState == NotifierState.loading;
     return AlertDialog(
       title: Text(
         isEdit ? "Edit Item" : "Add Item",
         style: const TextStyle(fontWeight: FontWeight.w800),
       ),
-      content:
-          context.watch<GroceryManager>().notifierState == NotifierState.loading
-              ? const CustomProgressIndicator()
-              : Autocomplete<GroceryListItemModel>(
-                  displayStringForOption: (groceryItem) => groceryItem.name,
-                  optionsBuilder: (textEditingValue) {
-                    if (textEditingValue.text.isEmpty) {
-                      return const Iterable<GroceryListItemModel>.empty();
-                    }
+      content: isLoading
+          ? null
+          : Autocomplete<GroceryListItemModel>(
+              displayStringForOption: (groceryItem) => groceryItem.name,
+              optionsBuilder: (textEditingValue) {
+                if (textEditingValue.text.isEmpty) {
+                  return const Iterable<GroceryListItemModel>.empty();
+                }
 
-                    final allGroceryItems =
-                        context.read<GroceryManager>().getAllGroceryItems();
-                    return allGroceryItems
-                        .where((groceryItem) => groceryItem.name
-                            .toLowerCase()
-                            .startsWith(textEditingValue.text.toLowerCase()))
-                        .toList();
-                  },
-                  fieldViewBuilder: (context, textEditingController, focusNode,
-                      onFieldSubmitted) {
-                    textEditingController.text = itemName;
-                    return TextFormField(
-                      controller: textEditingController,
-                      focusNode: focusNode,
-                      cursorColor: Colors.black,
-                      textCapitalization: TextCapitalization.words,
-                      decoration: const InputDecoration(
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black)),
-                      ),
-                      onChanged: (value) => newName = value,
-                    );
-                  },
-                  optionsViewBuilder: (context, onSelected, options) {
-                    return Align(
-                      alignment: Alignment.topLeft,
-                      child: Material(
-                        elevation: 2,
-                        child: SizedBox(
-                          width: 300,
-                          height: 200,
-                          child: ListView.builder(
-                              itemCount: options.length,
-                              padding: EdgeInsets.zero,
-                              itemBuilder: (_, index) {
-                                final option = options.elementAt(index);
-                                return GestureDetector(
-                                  onTap: () {
-                                    onSelected(option);
-                                    newName = option.name;
-                                  },
-                                  child: ListTile(
-                                    title: Text(option.name),
-                                  ),
-                                );
-                              }),
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                final allGroceryItems =
+                    context.read<GroceryManager>().getAllGroceryItems();
+                return allGroceryItems
+                    .where((groceryItem) => groceryItem.name
+                        .toLowerCase()
+                        .startsWith(textEditingValue.text.toLowerCase()))
+                    .toList();
+              },
+              fieldViewBuilder: (context, textEditingController, focusNode,
+                  onFieldSubmitted) {
+                textEditingController.text = itemName;
+                return TextFormField(
+                  controller: textEditingController,
+                  focusNode: focusNode,
+                  cursorColor: Colors.black,
+                  textCapitalization: TextCapitalization.words,
+                  decoration: const InputDecoration(
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black)),
+                  ),
+                  onChanged: (value) => newName = value,
+                );
+              },
+              optionsViewBuilder: (context, onSelected, options) {
+                return Align(
+                  alignment: Alignment.topLeft,
+                  child: Material(
+                    elevation: 2,
+                    child: SizedBox(
+                      width: 300,
+                      height: 200,
+                      child: ListView.builder(
+                          itemCount: options.length,
+                          padding: EdgeInsets.zero,
+                          itemBuilder: (_, index) {
+                            final option = options.elementAt(index);
+                            return GestureDetector(
+                              onTap: () {
+                                onSelected(option);
+                                newName = option.name;
+                              },
+                              child: ListTile(
+                                title: Text(option.name),
+                              ),
+                            );
+                          }),
+                    ),
+                  ),
+                );
+              },
+            ),
       actions: [
         TextButton.icon(
             key: const Key('new_item_btn'),
-            onPressed: context.watch<GroceryManager>().notifierState ==
-                    NotifierState.loading
+            onPressed: isLoading
                 ? null
                 : () async {
                     try {
@@ -133,10 +133,12 @@ class AddEditGroceryListItem extends StatelessWidget {
                           isError: true);
                     }
                   },
-            icon: const Icon(
-              Icons.local_grocery_store_rounded,
-              color: Colors.black,
-            ),
+            icon: isLoading
+                ? const CustomProgressIndicator()
+                : const Icon(
+                    Icons.local_grocery_store_rounded,
+                    color: Colors.black,
+                  ),
             label: Text(
               isEdit ? "Edit Shopping Item" : "Add Shopping Item",
               style: const TextStyle(color: Colors.black),
