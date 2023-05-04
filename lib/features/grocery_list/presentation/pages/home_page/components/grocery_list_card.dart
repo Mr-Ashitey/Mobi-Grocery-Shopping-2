@@ -62,8 +62,7 @@ class GroceryListCard extends StatelessWidget {
                     controller.text = groceryList.name;
                     showModalBottomSheet(
                         context: context,
-                        constraints: BoxConstraints(
-                            maxHeight: MediaQuery.of(context).size.height / 3),
+                        isScrollControlled: true,
                         builder: (_) {
                           return ManageGroceryList(
                               controller: controller, groceryList: groceryList);
