@@ -40,6 +40,30 @@ void main() {
     verify(mockNetworkInfo.isConnected);
   });
 
+  group("Device is offline", () {
+    setUp(() {
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+    });
+    test('no internet on add grocery lists', () async {
+      final result = await groceryListItemRepositoryImpl
+          .addGroceryListItem(groceryListItemModel);
+
+      expect(result.fold((l) => l.message, (r) => null), 'No Internet');
+    });
+    test('no internet on delete grocery list', () async {
+      final result = await groceryListItemRepositoryImpl
+          .deleteGroceryListItem(groceryListItemModel.id);
+
+      expect(result.fold((l) => l.message, (r) => null), 'No Internet');
+    });
+    test('no internet on update grocery list', () async {
+      final result = await groceryListItemRepositoryImpl
+          .updateGroceryListItem(groceryListItemModel);
+
+      expect(result.fold((l) => l.message, (r) => null), 'No Internet');
+    });
+  });
+
   group('device is online', () {
     // AddGroceryListItem
     test(
