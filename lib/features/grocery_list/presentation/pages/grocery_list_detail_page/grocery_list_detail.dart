@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../provider/grocery_manager.dart';
 import 'components/dialog_component/add_edit_grocery_list_item.dart';
+import 'components/grocery_list_item_info.dart';
 
 class ViewGroceryListScreen extends StatefulWidget {
   final int groceryListId;
@@ -27,10 +28,12 @@ class _ViewGroceryListScreenState extends State<ViewGroceryListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final groceryList = context.read<GroceryManager>().groceryList;
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.read<GroceryManager>().groceryList?.name ?? ""),
+        title: Text(groceryList?.name ?? ""),
       ),
+      bottomNavigationBar: ListItemsInfo(groceryList: groceryList),
       body: Consumer<GroceryManager>(
         builder: (context, provider, child) {
           final groceryList = provider.groceryList;
