@@ -55,7 +55,7 @@ class GroceryManager extends ChangeNotifier {
     final result = await _getGroceryListsUseCase.call();
 
     result.fold(
-      (failure) => throw (failure.message),
+      (failure) => throw failure,
       (groceryLists) {
         _groceryLists = groceryLists as List<GroceryListModel>;
         notifyListeners();
@@ -69,97 +69,88 @@ class GroceryManager extends ChangeNotifier {
       _groceryList = null;
       _groceryList = _groceryLists.firstWhere((list) => list.id == id);
     } catch (error) {
-      print(error.toString());
+      rethrow;
     }
   }
 
   // Add a new grocery list
   // and updates the internal grocery lists accordingly
   Future<void> addGroceryList(GroceryListModel groceryList) async {
-    try {
-      _setLoading(NotifierState.loading);
-      final result = await _addGroceryListsUseCase.call(groceryList);
+    _setLoading(NotifierState.loading);
+    final result = await _addGroceryListsUseCase.call(groceryList);
 
-      result.fold(
-        (failure) => throw (failure.message),
-        (_) => _groceryLists.add(groceryList),
-      );
-      _setLoading(NotifierState.loaded);
-    } catch (error) {
-      _setLoading(NotifierState.initial);
-      rethrow;
-    }
+    result.fold(
+      (failure) {
+        _setLoading(NotifierState.initial);
+        throw failure;
+      },
+      (_) {
+        _groceryLists.add(groceryList);
+        _setLoading(NotifierState.loaded);
+      },
+    );
   }
 
   // Updates an existing grocery list by ID
   // and updates the internal grocery lists accordingly
   Future<void> updateGroceryList(int id, GroceryListModel groceryList) async {
-    try {
-      _setLoading(NotifierState.loading);
-      final result = await _updateGroceryListUseCase.call(id, groceryList);
+    _setLoading(NotifierState.loading);
+    final result = await _updateGroceryListUseCase.call(id, groceryList);
 
-      result.fold(
-        (failure) => throw (failure.message),
-        (_) {
-          final index = _groceryLists.indexWhere((list) => list.id == id);
-          if (index != -1) {
-            _groceryLists[index] = groceryList;
-          }
-        },
-      );
-
-      _setLoading(NotifierState.loaded);
-    } catch (error) {
-      _setLoading(NotifierState.initial);
-
-      rethrow;
-    }
+    result.fold(
+      (failure) {
+        _setLoading(NotifierState.initial);
+        throw failure;
+      },
+      (_) {
+        final index = _groceryLists.indexWhere((list) => list.id == id);
+        if (index != -1) {
+          _groceryLists[index] = groceryList;
+        }
+        _setLoading(NotifierState.loaded);
+      },
+    );
   }
 
   // Deletes an existing grocery list by ID
   // and updates the internal grocery lists accordingly
   Future<void> deleteGroceryList(int id) async {
-    try {
-      _setLoading(NotifierState.loading);
-      final result = await _deleteGroceryListUseCase.call(id);
+    _setLoading(NotifierState.loading);
+    final result = await _deleteGroceryListUseCase.call(id);
 
-      result.fold(
-        (failure) => throw failure.message,
-        (_) {
-          _groceryLists.removeWhere((list) => list.id == id);
-        },
-      );
-
-      _setLoading(NotifierState.loaded);
-    } catch (error) {
-      _setLoading(NotifierState.initial);
-      rethrow;
-    }
+    result.fold(
+      (failure) {
+        _setLoading(NotifierState.initial);
+        throw failure;
+      },
+      (_) {
+        _groceryLists.removeWhere((list) => list.id == id);
+        _setLoading(NotifierState.loaded);
+      },
+    );
   }
 
   // Adds a new grocery list item to a grocery list
   // and updates the internal grocery lists accordingly
   Future<void> addGroceryListItem(
       int groceryListId, GroceryListItemModel groceryListItem) async {
-    try {
-      _setLoading(NotifierState.loading);
-      final result = await _addGroceryListItemUseCase.call(groceryListItem);
+    _setLoading(NotifierState.loading);
+    final result = await _addGroceryListItemUseCase.call(groceryListItem);
 
-      result.fold(
-        (failure) => throw (failure.message),
-        (_) {
-          final index =
-              _groceryLists.indexWhere((list) => list.id == groceryListId);
-          if (index != -1) {
-            _groceryLists[index].groceryListItems.add(groceryListItem);
-          }
-        },
-      );
-      _setLoading(NotifierState.loaded);
-    } catch (error) {
-      _setLoading(NotifierState.initial);
-      rethrow;
-    }
+    result.fold(
+      (failure) {
+        _setLoading(NotifierState.initial);
+        throw failure;
+      },
+      (_) {
+        final index =
+            _groceryLists.indexWhere((list) => list.id == groceryListId);
+        if (index != -1) {
+          _groceryLists[index].groceryListItems.add(groceryListItem);
+        }
+        _setLoading(NotifierState.loaded);
+      },
+    );
   }
 
   // Updates an existing grocery list item
@@ -172,7 +163,7 @@ class GroceryManager extends ChangeNotifier {
     result.fold(
       (failure) {
         _setLoading(NotifierState.initial);
-        throw (failure.message);
+        throw failure;
       },
       (_) {
         final index = _groceryLists
@@ -198,7 +189,7 @@ class GroceryManager extends ChangeNotifier {
     final result = await _deleteGroceryListItemUseCase.call(itemId);
 
     result.fold(
-      (failure) => throw (failure.message),
+      (failure) => throw failure,
       (_) {
         _groceryLists
             .firstWhere((groceryList) => groceryList.id == listId)
