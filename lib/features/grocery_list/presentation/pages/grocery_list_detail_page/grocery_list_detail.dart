@@ -53,17 +53,19 @@ class _ViewGroceryListScreenState extends State<ViewGroceryListScreen> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-          icon: const Icon(Icons.add),
-          label: const Text("ADD"),
-          onPressed: () {
-            showDialog(
-                context: context,
-                builder: (_) {
-                  return AddEditGroceryListItem(
-                      groceryListId: widget.groceryListId);
-                });
-          }),
+      floatingActionButton: groceryList == null
+          ? null
+          : FloatingActionButton.extended(
+              icon: const Icon(Icons.add),
+              label: const Text("ADD"),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (_) {
+                      return AddEditGroceryListItem(
+                          groceryListId: widget.groceryListId);
+                    });
+              }),
     );
   }
 }
