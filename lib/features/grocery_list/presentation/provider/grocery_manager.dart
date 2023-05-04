@@ -28,11 +28,13 @@ class GroceryManager extends ChangeNotifier {
   List<GroceryListModel> _groceryLists = [];
   GroceryListModel? _groceryList;
   NotifierState _notifierState = NotifierState.initial;
+  String _errorMessage = "";
 
   // Getters to access variables
   List<GroceryListModel> get groceryLists => [..._groceryLists];
   GroceryListModel? get groceryList => _groceryList;
   NotifierState get notifierState => _notifierState;
+  String get errorMessage => _errorMessage;
 
   GroceryManager(
       this._getGroceryListsUseCase,
@@ -52,13 +54,19 @@ class GroceryManager extends ChangeNotifier {
   // Retrieves all the grocery lists
   // and sets the internal grocery lists accordingly
   Future<void> getGroceryLists() async {
+    _setLoading(NotifierState.loading);
+    _errorMessage = "";
     final result = await _getGroceryListsUseCase.call();
 
     result.fold(
-      (failure) => throw failure,
+      (failure) {
+        _errorMessage = failure.message;
+        _setLoading(NotifierState.initial);
+        throw failure;
+      },
       (groceryLists) {
         _groceryLists = groceryLists as List<GroceryListModel>;
-        notifyListeners();
+        _setLoading(NotifierState.loaded);
       },
     );
   }
