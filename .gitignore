@@ -42,3 +42,11 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Coverage files
+/coverage
+
+# Code generated files
+*.mocks.dart
+*.g.dart
+*.env
