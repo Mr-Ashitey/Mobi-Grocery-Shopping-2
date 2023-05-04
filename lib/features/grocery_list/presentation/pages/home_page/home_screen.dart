@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/presentation/pages/home_page/components/grocery_list_card.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/presentation/provider/grocery_manager.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/presentation/widgets/screen_placeholder.dart';
@@ -34,20 +33,17 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> fetchGroceryLists() async {
-    try {
-      // wait for widget tree to be fully built before we call show progress dialog
-      Future.delayed(Duration.zero, () {
-        showProgressDialog(context);
-      });
-      await context.read<GroceryManager>().getGroceryLists();
-
-      // ignore: use_build_context_synchronously
-      context.pop();
-    } catch (error) {
-      context.pop();
-      showNotification(
-          context: context, message: error.toString(), isError: true);
-    }
+    // wait for widget tree to be fully built before we call show progress dialog
+    Future.delayed(Duration.zero, () async {
+      try {
+        // showProgressDialog(context);
+        await context.read<GroceryManager>().getGroceryLists();
+        // ignore: use_build_context_synchronously
+      } catch (error) {
+        showNotification(
+            context: context, message: error.toString(), isError: true);
+      }
+    });
   }
 
   @override
@@ -64,8 +60,17 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Consumer<GroceryManager>(
         builder: (context, provider, _) {
           final groceryLists = provider.groceryLists;
-          if (groceryLists.isEmpty) {
+          if (provider.notifierState == NotifierState.loading) {
+            return const CustomProgressIndicator();
+          }
+
+          if (groceryLists.isEmpty && provider.errorMessage.isEmpty) {
             return const ScreenPlaceHolder(title: "Start Shopping...");
+          }
+          if (provider.errorMessage.isNotEmpty) {
+            return Center(
+              child: Text(provider.errorMessage),
+            );
           }
 
           return ListView.builder(
