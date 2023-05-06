@@ -63,7 +63,7 @@ Future<void> initGetIt() async {
 
   //? -- Grocery List Item Usecase
   locator.registerLazySingleton<GrcoeryListItemRemoteDataSource>(
-    () => GrcoeryListItemRemoteDataSourceImpl(locator()),
+    () => GroceryListItemRemoteDataSourceImpl(locator()),
   );
 
   // Core
