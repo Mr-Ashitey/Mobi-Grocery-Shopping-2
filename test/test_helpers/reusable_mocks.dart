@@ -3,6 +3,8 @@ import 'package:mobi_grocery_shopping_2/core/api/dio_client.dart';
 import 'package:mobi_grocery_shopping_2/core/network/network_info.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/data/datasources/grocery_list_item_remote_datasource.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/data/datasources/grocery_list_remote_datasource.dart';
+import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/repositories/grocery_list_item_repository.dart';
+import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/repositories/grocery_list_repository.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/usecases/grocery_list_item_usecases/add_grocery_list_item_usecase.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/usecases/grocery_list_item_usecases/delete_grocery_list_item_usecase.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/usecases/grocery_list_item_usecases/update_grocery_list_item_usecase.dart';
@@ -14,6 +16,9 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 @GenerateMocks([
+  // Repositories
+  GroceryListRepository,
+  GroceryListItemRepository,
   // UseCases
   GetGroceryListsUseCase,
   AddGroceryListUseCase,
