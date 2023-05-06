@@ -75,7 +75,10 @@ class GroceryManager extends ChangeNotifier {
   Future<void> getGroceryList(int id) async {
     try {
       _groceryList = null;
-      _groceryList = _groceryLists.firstWhere((list) => list.id == id);
+      final index = _groceryLists.indexWhere((list) => list.id == id);
+      if (index != -1) {
+        _groceryList = _groceryLists[index];
+      }
     } catch (error) {
       rethrow;
     }
@@ -93,7 +96,11 @@ class GroceryManager extends ChangeNotifier {
         throw failure;
       },
       (_) {
-        _groceryLists.insert(0, groceryList);
+        final List<GroceryListModel> groceryListsCopy = List.from(
+            _groceryLists); // make a copy of the original list since it is unmodifiable
+
+        groceryListsCopy.insert(0, groceryList);
+        _groceryLists = groceryListsCopy;
         _setLoading(NotifierState.loaded);
       },
     );
@@ -111,9 +118,14 @@ class GroceryManager extends ChangeNotifier {
         throw failure;
       },
       (_) {
-        final index = _groceryLists.indexWhere((list) => list.id == id);
+        final List<GroceryListModel> updatedGroceryLists = List.from(
+            _groceryLists); // make a copy of the original list since it is unmodifiable
+
+        final index = _groceryLists.indexWhere((list) =>
+            list.id == id); // get the index of the list we want to update
         if (index != -1) {
-          _groceryLists[index] = groceryList;
+          updatedGroceryLists[index] = groceryList;
+          _groceryLists = updatedGroceryLists;
         }
         _setLoading(NotifierState.loaded);
       },
@@ -132,7 +144,11 @@ class GroceryManager extends ChangeNotifier {
         throw failure;
       },
       (_) {
-        _groceryLists.removeWhere((list) => list.id == id);
+        final List<GroceryListModel> groceryListsCopy = List.from(
+            _groceryLists); // make a copy of the original list since it is unmodifiable
+
+        groceryListsCopy.removeWhere((list) => list.id == id);
+        _groceryLists = groceryListsCopy;
         _setLoading(NotifierState.loaded);
       },
     );
