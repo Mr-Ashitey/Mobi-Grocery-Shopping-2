@@ -12,8 +12,11 @@ import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/usecases/gr
 import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/usecases/grocery_list_usecases/delete_grocery_list_usecase.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/usecases/grocery_list_usecases/get_grocery_lists_usecase.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/usecases/grocery_list_usecases/update_grocery_list_usecase.dart';
+import 'package:mobi_grocery_shopping_2/features/grocery_list/presentation/provider/grocery_manager.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
+import 'reusable_mocks.mocks.dart';
 
 @GenerateMocks([
   // Repositories
@@ -38,6 +41,47 @@ import 'package:mockito/mockito.dart';
   GroceryListRemoteDataSource
 ])
 class ReusableMocks {
+  /*
+  --------------------------------------
+    Grocery Usecases & Grocery Manager
+  --------------------------------------
+  */
+  late final MockGetGroceryListsUseCase mockGetGroceryListsUseCase;
+  late final MockAddGroceryListUseCase mockAddGroceryListUseCase;
+  late final MockUpdateGroceryListUseCase mockUpdateGroceryListUseCase;
+  late final MockDeleteGroceryListUseCase mockDeleteGroceryListUseCase;
+  late final MockUpdateGroceryListItemUseCase mockUpdateGroceryListItemUseCase;
+  late final MockAddGroceryListItemUseCase mockAddGroceryListItemUseCase;
+  late final MockDeleteGroceryListItemUseCase mockDeleteGroceryListItemUseCase;
+  late GroceryManager groceryManager;
+
+  void initGroceryManager() {
+    mockGetGroceryListsUseCase = MockGetGroceryListsUseCase();
+    mockAddGroceryListUseCase = MockAddGroceryListUseCase();
+    mockUpdateGroceryListUseCase = MockUpdateGroceryListUseCase();
+    mockDeleteGroceryListUseCase = MockDeleteGroceryListUseCase();
+    mockUpdateGroceryListItemUseCase = MockUpdateGroceryListItemUseCase();
+    mockAddGroceryListItemUseCase = MockAddGroceryListItemUseCase();
+    mockDeleteGroceryListItemUseCase = MockDeleteGroceryListItemUseCase();
+    groceryManager = GroceryManager(
+        mockGetGroceryListsUseCase,
+        mockAddGroceryListUseCase,
+        mockUpdateGroceryListUseCase,
+        mockDeleteGroceryListUseCase,
+        mockUpdateGroceryListItemUseCase,
+        mockAddGroceryListItemUseCase,
+        mockDeleteGroceryListItemUseCase);
+  }
+
+  static final groceryManagerInit = GroceryManager(
+      MockGetGroceryListsUseCase(),
+      MockAddGroceryListUseCase(),
+      MockUpdateGroceryListUseCase(),
+      MockDeleteGroceryListUseCase(),
+      MockUpdateGroceryListItemUseCase(),
+      MockAddGroceryListItemUseCase(),
+      MockDeleteGroceryListItemUseCase());
+
   /*
   -----------------------------
       Internet Connection
