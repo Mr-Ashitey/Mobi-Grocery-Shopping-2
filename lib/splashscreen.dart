@@ -12,15 +12,22 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  late Timer timer;
   @override
   void initState() {
     navigateToHomeScreenAfter3Seconds();
     super.initState();
   }
 
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
   // function to display splash screen for 3 seconds
   void navigateToHomeScreenAfter3Seconds() {
-    Timer(const Duration(seconds: 3), () async {
+    timer = Timer(const Duration(seconds: 3), () async {
       context.go(RoutePath.homeRoutePath);
     });
   }

@@ -1,16 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobi_grocery_shopping_2/core/api/dio_client.dart';
 import 'package:mobi_grocery_shopping_2/core/error/failure.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/data/datasources/grocery_list_remote_datasource.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/data/model/grocery_list_item_model.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/data/model/grocery_list_model.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'grocery_list_item_remote_datasource_test.mocks.dart';
+import '../../../../test_helpers/reusable_mocks.mocks.dart';
 
-@GenerateMocks([DioClient])
 void main() {
   late GrcoeryListRemoteDataSourceImpl dataSourceImpl;
   late MockDioClient mockDioClient;

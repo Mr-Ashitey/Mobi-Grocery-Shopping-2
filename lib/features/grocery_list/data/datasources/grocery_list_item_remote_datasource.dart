@@ -11,11 +11,11 @@ abstract class GrcoeryListItemRemoteDataSource {
   Future<void> deleteGroceryListItem(int id);
 }
 
-class GrcoeryListItemRemoteDataSourceImpl
+class GroceryListItemRemoteDataSourceImpl
     implements GrcoeryListItemRemoteDataSource {
   final DioClient _dioClient;
 
-  GrcoeryListItemRemoteDataSourceImpl(this._dioClient);
+  GroceryListItemRemoteDataSourceImpl(this._dioClient);
   @override
   Future<void> addGroceryListItem(GroceryListItemModel groceryListItem) async {
     try {

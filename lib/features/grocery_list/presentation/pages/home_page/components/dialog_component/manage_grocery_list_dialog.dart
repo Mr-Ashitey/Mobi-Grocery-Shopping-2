@@ -32,7 +32,6 @@ class ManageGroceryList extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18.0),
             child: TextField(
-              key: const Key('grocery_list_name'),
               controller: controller,
               cursorColor: Colors.black,
               textCapitalization: TextCapitalization.words,
@@ -62,7 +61,7 @@ class ManageGroceryList extends StatelessWidget {
 
                             await context
                                 .read<GroceryManager>()
-                                .updateGroceryList(
+                                .updateGroceryList( 
                                     groceryList.id!, updateGroceryList);
                             // ignore: use_build_context_synchronously
                             context.pop();

@@ -4,7 +4,7 @@ import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/entities/gr
 import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/usecases/grocery_list_usecases/get_grocery_lists_usecase.dart';
 import 'package:mockito/mockito.dart';
 
-import 'generated_mocks/generated_grocery_list_repository.mocks.dart';
+import '../../../../../test_helpers/reusable_mocks.mocks.dart';
 
 void main() {
   late MockGroceryListRepository mockGroceryListRepository;

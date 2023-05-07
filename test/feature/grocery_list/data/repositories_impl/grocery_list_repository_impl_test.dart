@@ -1,16 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobi_grocery_shopping_2/core/error/failure.dart';
-import 'package:mobi_grocery_shopping_2/core/network/network_info.dart';
-import 'package:mobi_grocery_shopping_2/features/grocery_list/data/datasources/grocery_list_remote_datasource.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/data/model/grocery_list_model.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/data/repositories_impl/grocery_list_repository_impl.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'grocery_list_repository_impl_test.mocks.dart';
+import '../../../../test_helpers/reusable_mocks.mocks.dart';
 
-@GenerateMocks([GroceryListRemoteDataSource, NetworkInfo])
 void main() {
   late GroceryListRepositoryImpl groceryListRepositoryImpl;
   late MockGroceryListRemoteDataSource mockGroceryListRemoteDataSource;
@@ -37,6 +33,35 @@ void main() {
     await groceryListRepositoryImpl.getGroceryLists();
 
     verify(mockNetworkInfo.isConnected);
+  });
+
+  group("Device is offline", () {
+    setUp(() {
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+    });
+    test('no internet on add grocery lists', () async {
+      final result =
+          await groceryListRepositoryImpl.addGroceryList(groceryListModel);
+
+      expect(result.fold((l) => l.message, (r) => null), 'No Internet');
+    });
+    test('no internet on delete grocery list', () async {
+      final result =
+          await groceryListRepositoryImpl.deleteGroceryList(groceryListId);
+
+      expect(result.fold((l) => l.message, (r) => null), 'No Internet');
+    });
+    test('no internet on get grocery lists', () async {
+      final result = await groceryListRepositoryImpl.getGroceryLists();
+
+      expect(result.fold((l) => l.message, (r) => null), 'No Internet');
+    });
+    test('no internet on update grocery list', () async {
+      final result = await groceryListRepositoryImpl.updateGroceryList(
+          groceryListId, groceryListModel);
+
+      expect(result.fold((l) => l.message, (r) => null), 'No Internet');
+    });
   });
 
   group('device is online', () {

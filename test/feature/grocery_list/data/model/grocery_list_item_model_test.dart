@@ -28,21 +28,21 @@ void main() {
     expect(json['grocery_list_id'], 1);
   });
 
-  // test(
-  //     'GroceryListItemModel should be able to be created from JSON and convert String id from server to int',
-  //     () {
-  //   final json = {
-  //     'id': '1',
-  //     'name': 'Milk',
-  //     'isCollected': false,
-  //   };
+  test(
+      'GroceryListItemModel should be able to be created from JSON and convert String id from server to int',
+      () {
+    final json = {
+      'id': '1',
+      'name': 'Milk',
+      'isCollected': false,
+    };
 
-  //   final groceryListItemModel = GroceryListItemModel.fromJson(json);
+    final groceryListItemModel = GroceryListItemModel.fromJson(json);
 
-  //   expect(groceryListItemModel.id, 1);
-  //   expect(groceryListItemModel.name, 'Milk');
-  //   expect(groceryListItemModel.isCollected, false);
-  // });
+    expect(groceryListItemModel.id, 1);
+    expect(groceryListItemModel.name, 'Milk');
+    expect(groceryListItemModel.isCollected, false);
+  });
   test(
       'GroceryListItemModel should be able to be created from JSON with right property types',
       () {
