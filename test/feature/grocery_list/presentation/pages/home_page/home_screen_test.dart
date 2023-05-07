@@ -9,40 +9,16 @@ import 'package:mobi_grocery_shopping_2/features/grocery_list/presentation/pages
 import 'package:mobi_grocery_shopping_2/features/grocery_list/presentation/pages/home_page/components/dialog_component/manage_grocery_list_dialog.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/presentation/pages/home_page/components/grocery_list_card.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/presentation/pages/home_page/home_screen.dart';
-import 'package:mobi_grocery_shopping_2/features/grocery_list/presentation/provider/grocery_manager.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../../../test_helpers/pump_app.dart';
-import '../../../../../test_helpers/pump_app.mocks.dart';
+import '../../../../../test_helpers/reusable_mocks.dart';
 
 void main() {
-  late GroceryManager groceryManager;
-  late MockGetGroceryListsUseCase mockGetGroceryListsUseCase;
-  late MockAddGroceryListUseCase mockAddGroceryListUseCase;
-  late MockUpdateGroceryListUseCase mockUpdateGroceryListUseCase;
-  late MockDeleteGroceryListUseCase mockDeleteGroceryListUseCase;
-  late MockUpdateGroceryListItemUseCase mockUpdateGroceryListItemUseCase;
-  late MockAddGroceryListItemUseCase mockAddGroceryListItemUseCase;
-  late MockDeleteGroceryListItemUseCase mockDeleteGroceryListItemUseCase;
-  // GroceryList groceryList = GroceryList(name: "List 1");
-  // GroceryItem groceryItem = GroceryItem(name: 'Item 1', collected: false);
-
-  setUpAll(() {
-    mockGetGroceryListsUseCase = MockGetGroceryListsUseCase();
-    mockAddGroceryListUseCase = MockAddGroceryListUseCase();
-    mockUpdateGroceryListUseCase = MockUpdateGroceryListUseCase();
-    mockDeleteGroceryListUseCase = MockDeleteGroceryListUseCase();
-    mockUpdateGroceryListItemUseCase = MockUpdateGroceryListItemUseCase();
-    mockAddGroceryListItemUseCase = MockAddGroceryListItemUseCase();
-    mockDeleteGroceryListItemUseCase = MockDeleteGroceryListItemUseCase();
-    groceryManager = GroceryManager(
-        mockGetGroceryListsUseCase,
-        mockAddGroceryListUseCase,
-        mockUpdateGroceryListUseCase,
-        mockDeleteGroceryListUseCase,
-        mockUpdateGroceryListItemUseCase,
-        mockAddGroceryListItemUseCase,
-        mockDeleteGroceryListItemUseCase);
+  late ReusableMocks reusableMocks;
+  setUp(() {
+    reusableMocks = ReusableMocks();
+    reusableMocks.initGroceryManager();
   });
 
   const groceryList = GroceryListModel(
@@ -71,10 +47,10 @@ void main() {
 
   testWidgets('displays screen placeholder when groceryLists is empty',
       (WidgetTester tester) async {
-    when(mockGetGroceryListsUseCase.call())
+    when(reusableMocks.mockGetGroceryListsUseCase.call())
         .thenAnswer((_) async => const Right(<GroceryListModel>[]));
 
-    await tester.pumpApp(RoutePath.homeRoutePath, groceryManager);
+    await tester.pumpApp(RoutePath.homeRoutePath, reusableMocks.groceryManager);
     await tester.pump(Duration.zero);
 
     expect(find.text('Start Shopping...'), findsOneWidget);
@@ -82,20 +58,20 @@ void main() {
 
   testWidgets('displays grocery lists when groceryLists is not empty',
       (WidgetTester tester) async {
-    when(mockGetGroceryListsUseCase.call())
+    when(reusableMocks.mockGetGroceryListsUseCase.call())
         .thenAnswer((_) async => const Right(listGroceryList));
 
-    await tester.pumpApp(RoutePath.homeRoutePath, groceryManager);
+    await tester.pumpApp(RoutePath.homeRoutePath, reusableMocks.groceryManager);
     await tester.pump(Duration.zero);
 
     expect(find.byType(GroceryListCard), findsNWidgets(2));
   });
   testWidgets('show error when we get an error trying to get grocery lists',
       (WidgetTester tester) async {
-    when(mockGetGroceryListsUseCase.call())
+    when(reusableMocks.mockGetGroceryListsUseCase.call())
         .thenAnswer((_) async => Left(Failure("error")));
 
-    await tester.pumpApp(RoutePath.homeRoutePath, groceryManager);
+    await tester.pumpApp(RoutePath.homeRoutePath, reusableMocks.groceryManager);
     await tester.pump(Duration.zero);
 
     expect(find.byType(SnackBar), findsOneWidget);
@@ -106,10 +82,10 @@ void main() {
   });
   testWidgets('when grocery list is tapped, navigate to detail screen',
       (WidgetTester tester) async {
-    when(mockGetGroceryListsUseCase.call())
+    when(reusableMocks.mockGetGroceryListsUseCase.call())
         .thenAnswer((_) async => const Right(listGroceryList));
 
-    await tester.pumpApp(RoutePath.homeRoutePath, groceryManager);
+    await tester.pumpApp(RoutePath.homeRoutePath, reusableMocks.groceryManager);
     await tester.pump(Duration.zero);
 
     await tester.tap(find.byType(GroceryListCard).first);
@@ -123,11 +99,12 @@ void main() {
     final deleteGroceryListBtn = find.byKey(const Key('delete_grocery_list'));
     final groceryListNameTextField = find.byType(TextField);
     setUp(() {
-      when(mockGetGroceryListsUseCase.call())
+      when(reusableMocks.mockGetGroceryListsUseCase.call())
           .thenAnswer((_) async => const Right(listGroceryList));
     });
     testWidgets('brings up bottom sheet modal', (WidgetTester tester) async {
-      await tester.pumpApp(RoutePath.homeRoutePath, groceryManager);
+      await tester.pumpApp(
+          RoutePath.homeRoutePath, reusableMocks.groceryManager);
       await tester.pump(Duration.zero);
 
       // tap on more on the first grocery list
@@ -141,9 +118,10 @@ void main() {
     testWidgets('brings up bottom sheet modal and rename button works',
         (WidgetTester tester) async {
       // create a mock list tile
-      when(mockUpdateGroceryListUseCase.call(any, any))
+      when(reusableMocks.mockUpdateGroceryListUseCase.call(any, any))
           .thenAnswer((_) async => const Right(null));
-      await tester.pumpApp(RoutePath.homeRoutePath, groceryManager);
+      await tester.pumpApp(
+          RoutePath.homeRoutePath, reusableMocks.groceryManager);
       await tester.pump(Duration.zero);
 
       // tap on more on a grocery list
@@ -160,9 +138,10 @@ void main() {
     testWidgets('brings up bottom sheet modal and rename throws an error',
         (WidgetTester tester) async {
       // create a mock list tile
-      when(mockUpdateGroceryListUseCase.call(any, any))
+      when(reusableMocks.mockUpdateGroceryListUseCase.call(any, any))
           .thenAnswer((_) async => Left(Failure("error")));
-      await tester.pumpApp(RoutePath.homeRoutePath, groceryManager);
+      await tester.pumpApp(
+          RoutePath.homeRoutePath, reusableMocks.groceryManager);
       await tester.pump(Duration.zero);
 
       // tap on more on a grocery list
@@ -179,13 +158,14 @@ void main() {
 
     group("Delete Brings Up Dialog", () {
       setUp(() {
-        when(mockDeleteGroceryListUseCase.call(any))
+        when(reusableMocks.mockDeleteGroceryListUseCase.call(any))
             .thenAnswer((_) async => const Right(null));
       });
       testWidgets('and tap yes deletes the grocery list',
           (WidgetTester tester) async {
         // create a mock list tile
-        await tester.pumpApp(RoutePath.homeRoutePath, groceryManager);
+        await tester.pumpApp(
+            RoutePath.homeRoutePath, reusableMocks.groceryManager);
         await tester.pump(Duration.zero);
 
         // initial grocery list exists
@@ -215,7 +195,8 @@ void main() {
           'and tap no stops deletion process and returns to bottom sheet',
           (WidgetTester tester) async {
         // create a mock list tile
-        await tester.pumpApp(RoutePath.homeRoutePath, groceryManager);
+        await tester.pumpApp(
+            RoutePath.homeRoutePath, reusableMocks.groceryManager);
         await tester.pump(Duration.zero);
 
         // initial grocery list exists
@@ -242,10 +223,11 @@ void main() {
 
       testWidgets('throw an error when try to delete a grocery list',
           (WidgetTester tester) async {
-        when(mockDeleteGroceryListUseCase.call(any))
+        when(reusableMocks.mockDeleteGroceryListUseCase.call(any))
             .thenAnswer((_) async => Left(Failure("error")));
         // create a mock list tile
-        await tester.pumpApp(RoutePath.homeRoutePath, groceryManager);
+        await tester.pumpApp(
+            RoutePath.homeRoutePath, reusableMocks.groceryManager);
         await tester.pump(Duration.zero);
 
         // tap on more on the first grocery list
@@ -268,10 +250,10 @@ void main() {
   });
   testWidgets('displays add new list dialog when FAB is pressed',
       (WidgetTester tester) async {
-    when(mockGetGroceryListsUseCase.call())
+    when(reusableMocks.mockGetGroceryListsUseCase.call())
         .thenAnswer((_) async => const Right(listGroceryList));
 
-    await tester.pumpApp(RoutePath.homeRoutePath, groceryManager);
+    await tester.pumpApp(RoutePath.homeRoutePath, reusableMocks.groceryManager);
     await tester.pump(Duration.zero);
 
     await tester.tap(find.byIcon(Icons.add));
@@ -282,13 +264,13 @@ void main() {
   });
   testWidgets('add new list and navigate to home screen',
       (WidgetTester tester) async {
-    when(mockGetGroceryListsUseCase.call())
+    when(reusableMocks.mockGetGroceryListsUseCase.call())
         .thenAnswer((_) async => const Right(listGroceryList));
-    when(mockAddGroceryListUseCase.call(any))
+    when(reusableMocks.mockAddGroceryListUseCase.call(any))
         .thenAnswer((_) async => const Right(null));
     final newListTextField = find.byType(TextField);
 
-    await tester.pumpApp(RoutePath.homeRoutePath, groceryManager);
+    await tester.pumpApp(RoutePath.homeRoutePath, reusableMocks.groceryManager);
     await tester.pump(Duration.zero);
 
     await tester.tap(find.byIcon(Icons.add));
@@ -302,13 +284,13 @@ void main() {
     expect(find.byType(GroceryListCard), findsNWidgets(3));
   });
   testWidgets('add new list throws error', (WidgetTester tester) async {
-    when(mockGetGroceryListsUseCase.call())
+    when(reusableMocks.mockGetGroceryListsUseCase.call())
         .thenAnswer((_) async => const Right(listGroceryList));
-    when(mockAddGroceryListUseCase.call(any))
+    when(reusableMocks.mockAddGroceryListUseCase.call(any))
         .thenAnswer((_) async => Left(Failure("error")));
     final newListTextField = find.byType(TextField);
 
-    await tester.pumpApp(RoutePath.homeRoutePath, groceryManager);
+    await tester.pumpApp(RoutePath.homeRoutePath, reusableMocks.groceryManager);
     await tester.pump(Duration.zero);
 
     await tester.tap(find.byIcon(Icons.add));
@@ -324,16 +306,16 @@ void main() {
 
   testWidgets('Refresh icon refetches grocery lists',
       (WidgetTester tester) async {
-    when(mockGetGroceryListsUseCase.call())
+    when(reusableMocks.mockGetGroceryListsUseCase.call())
         .thenAnswer((_) async => const Right(listGroceryList));
 
-    await tester.pumpApp(RoutePath.homeRoutePath, groceryManager);
+    await tester.pumpApp(RoutePath.homeRoutePath, reusableMocks.groceryManager);
     await tester.pump(Duration.zero);
 
     // expect 2 grocery list on init
     expect(find.byType(GroceryListCard), findsNWidgets(2));
 
-    when(mockGetGroceryListsUseCase.call())
+    when(reusableMocks.mockGetGroceryListsUseCase.call())
         .thenAnswer((_) async => const Right(listGroceryList2));
     await tester.tap(find.byIcon(Icons.refresh));
     await tester.pump(Duration.zero);

@@ -3,54 +3,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobi_grocery_shopping_2/core/error/failure.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/data/model/grocery_list_item_model.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/data/model/grocery_list_model.dart';
-import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/usecases/grocery_list_item_usecases/add_grocery_list_item_usecase.dart';
-import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/usecases/grocery_list_item_usecases/delete_grocery_list_item_usecase.dart';
-import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/usecases/grocery_list_item_usecases/update_grocery_list_item_usecase.dart';
-import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/usecases/grocery_list_usecases/add_grocery_list_usecase.dart';
-import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/usecases/grocery_list_usecases/delete_grocery_list_usecase.dart';
-import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/usecases/grocery_list_usecases/get_grocery_lists_usecase.dart';
-import 'package:mobi_grocery_shopping_2/features/grocery_list/domain/usecases/grocery_list_usecases/update_grocery_list_usecase.dart';
 import 'package:mobi_grocery_shopping_2/features/grocery_list/presentation/provider/grocery_manager.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'grocery_manager_test.mocks.dart';
+import '../../../../test_helpers/reusable_mocks.dart';
 
-@GenerateMocks([
-  GetGroceryListsUseCase,
-  AddGroceryListUseCase,
-  UpdateGroceryListUseCase,
-  DeleteGroceryListUseCase,
-  AddGroceryListItemUseCase,
-  UpdateGroceryListItemUseCase,
-  DeleteGroceryListItemUseCase
-])
 void main() {
-  late MockGetGroceryListsUseCase mockGetGroceryListsUseCase;
-  late MockAddGroceryListUseCase mockAddGroceryListUseCase;
-  late MockUpdateGroceryListUseCase mockUpdateGroceryListUseCase;
-  late MockDeleteGroceryListUseCase mockDeleteGroceryListUseCase;
-  late MockAddGroceryListItemUseCase mockAddGroceryListItemUseCase;
-  late MockUpdateGroceryListItemUseCase mockUpdateGroceryListItemUseCase;
-  late MockDeleteGroceryListItemUseCase mockDeleteGroceryListItemUseCase;
-  late GroceryManager groceryManager;
-
+  late ReusableMocks reusableMocks;
   setUp(() {
-    mockGetGroceryListsUseCase = MockGetGroceryListsUseCase();
-    mockAddGroceryListUseCase = MockAddGroceryListUseCase();
-    mockUpdateGroceryListUseCase = MockUpdateGroceryListUseCase();
-    mockDeleteGroceryListUseCase = MockDeleteGroceryListUseCase();
-    mockAddGroceryListItemUseCase = MockAddGroceryListItemUseCase();
-    mockUpdateGroceryListItemUseCase = MockUpdateGroceryListItemUseCase();
-    mockDeleteGroceryListItemUseCase = MockDeleteGroceryListItemUseCase();
-    groceryManager = GroceryManager(
-        mockGetGroceryListsUseCase,
-        mockAddGroceryListUseCase,
-        mockUpdateGroceryListUseCase,
-        mockDeleteGroceryListUseCase,
-        mockUpdateGroceryListItemUseCase,
-        mockAddGroceryListItemUseCase,
-        mockDeleteGroceryListItemUseCase);
+    reusableMocks = ReusableMocks();
+    reusableMocks.initGroceryManager();
   });
 
   const groceryList = GroceryListModel(
@@ -71,106 +33,113 @@ void main() {
     group("success", () {
       test('getGroceryLists should get all grocery lists', () async {
         // arrange
-        when(mockGetGroceryListsUseCase.call())
+        when(reusableMocks.mockGetGroceryListsUseCase.call())
             .thenAnswer((_) async => const Right(listGroceryList));
 
         // act
-        await groceryManager.getGroceryLists();
+        await reusableMocks.groceryManager.getGroceryLists();
 
         // assert
-        expect(groceryManager.groceryLists, equals(listGroceryList));
-        expect(groceryManager.notifierState, NotifierState.loaded);
+        expect(
+            reusableMocks.groceryManager.groceryLists, equals(listGroceryList));
+        expect(
+            reusableMocks.groceryManager.notifierState, NotifierState.loaded);
       });
       test('getGroceryList should get a grocery list', () async {
         // arrange (populate grocery lists)
-        when(mockGetGroceryListsUseCase.call())
+        when(reusableMocks.mockGetGroceryListsUseCase.call())
             .thenAnswer((_) async => const Right(listGroceryList));
-        await groceryManager.getGroceryLists();
+        await reusableMocks.groceryManager.getGroceryLists();
 
         // act
-        await groceryManager.getGroceryList(groceryList.id!);
+        await reusableMocks.groceryManager.getGroceryList(groceryList.id!);
 
         // assert
-        expect(groceryManager.groceryList, equals(groceryList));
+        expect(reusableMocks.groceryManager.groceryList, equals(groceryList));
       });
       test('addGroceryList should add a grocery list', () async {
-        when(mockAddGroceryListUseCase.call(any))
+        when(reusableMocks.mockAddGroceryListUseCase.call(any))
             .thenAnswer((_) async => const Right(null));
 
         // act
-        await groceryManager.addGroceryList(groceryList);
+        await reusableMocks.groceryManager.addGroceryList(groceryList);
 
         // assert
-        expect(groceryManager.groceryLists.length, 1);
-        expect(groceryManager.groceryLists.first, equals(groceryList));
-        expect(groceryManager.notifierState, NotifierState.loaded);
+        expect(reusableMocks.groceryManager.groceryLists.length, 1);
+        expect(reusableMocks.groceryManager.groceryLists.first,
+            equals(groceryList));
+        expect(
+            reusableMocks.groceryManager.notifierState, NotifierState.loaded);
       });
       test('updateGroceryList should update a grocery list', () async {
         // populate grocery lists
-        when(mockGetGroceryListsUseCase.call())
+        when(reusableMocks.mockGetGroceryListsUseCase.call())
             .thenAnswer((_) async => const Right(listGroceryList));
-        await groceryManager.getGroceryLists();
+        await reusableMocks.groceryManager.getGroceryLists();
 
         // arrange
-        when(mockUpdateGroceryListUseCase.call(any, any))
+        when(reusableMocks.mockUpdateGroceryListUseCase.call(any, any))
             .thenAnswer((_) async => const Right(null));
 
         // act
-        await groceryManager.updateGroceryList(
-            groceryList.id!, updateGroceryList);
+        await reusableMocks.groceryManager
+            .updateGroceryList(groceryList.id!, updateGroceryList);
 
         // assert
-        expect(groceryManager.groceryLists.first, equals(updateGroceryList));
-        expect(groceryManager.notifierState, NotifierState.loaded);
+        expect(reusableMocks.groceryManager.groceryLists.first,
+            equals(updateGroceryList));
+        expect(
+            reusableMocks.groceryManager.notifierState, NotifierState.loaded);
       });
       test('deleteGroceryList should delete a grocery list', () async {
         // populate grocery lists
-        when(mockGetGroceryListsUseCase.call())
+        when(reusableMocks.mockGetGroceryListsUseCase.call())
             .thenAnswer((_) async => const Right(listGroceryList));
-        await groceryManager.getGroceryLists();
+        await reusableMocks.groceryManager.getGroceryLists();
 
         // arrange
-        when(mockDeleteGroceryListUseCase.call(any))
+        when(reusableMocks.mockDeleteGroceryListUseCase.call(any))
             .thenAnswer((_) async => const Right(null));
-        expect(groceryManager.groceryLists.length, 2);
+        expect(reusableMocks.groceryManager.groceryLists.length, 2);
 
         // act
-        await groceryManager.deleteGroceryList(groceryList.id!);
+        await reusableMocks.groceryManager.deleteGroceryList(groceryList.id!);
 
         // assert
-        expect(groceryManager.groceryLists.length, 1);
-        expect(groceryManager.notifierState, NotifierState.loaded);
+        expect(reusableMocks.groceryManager.groceryLists.length, 1);
+        expect(
+            reusableMocks.groceryManager.notifierState, NotifierState.loaded);
       });
     });
 
     group("throws error", () {
       test('getGroceryLists should throw Failure', () async {
         // arrange
-        when(mockGetGroceryListsUseCase.call())
+        when(reusableMocks.mockGetGroceryListsUseCase.call())
             .thenAnswer((_) async => Left(Failure("error")));
 
         // act
-        final call = groceryManager.getGroceryLists;
+        final call = reusableMocks.groceryManager.getGroceryLists;
 
         // assert
         // call();
-        // expect(groceryManager.errorMessage, equals("error"));
+        // expect(reusableMocks.groceryManager.errorMessage, equals("error"));
         expect(() async => await call(), throwsA(const TypeMatcher<Failure>()));
       });
 
       test('getGroceryList should throw Exception', () async {
         // act
-        await groceryManager.getGroceryList(groceryList.id!);
+        await reusableMocks.groceryManager.getGroceryList(groceryList.id!);
         // assert
-        expect(groceryManager.groceryList, isNull);
+        expect(reusableMocks.groceryManager.groceryList, isNull);
       });
       test('addGroceryList should throw a Failure', () async {
         // arrange (populate grocery lists)
-        when(mockAddGroceryListUseCase.call(any))
+        when(reusableMocks.mockAddGroceryListUseCase.call(any))
             .thenAnswer((_) async => Left(Failure("error")));
 
         // act
-        final call = groceryManager.addGroceryList;
+        final call = reusableMocks.groceryManager.addGroceryList;
         // assert
         expect(() async => await call(groceryList),
             throwsA(const TypeMatcher<Failure>()));
@@ -178,11 +147,11 @@ void main() {
 
       test('updateGroceryList should throw a Failure', () async {
         // arrange
-        when(mockUpdateGroceryListUseCase.call(any, any))
+        when(reusableMocks.mockUpdateGroceryListUseCase.call(any, any))
             .thenAnswer((_) async => Left(Failure("error")));
 
         // act
-        final call = groceryManager.updateGroceryList;
+        final call = reusableMocks.groceryManager.updateGroceryList;
 
         // assert
         expect(() async => await call(groceryList.id!, updateGroceryList),
@@ -191,11 +160,11 @@ void main() {
 
       test('deleteGroceryList should throw Failure', () async {
         // arrange
-        when(mockDeleteGroceryListUseCase.call(any))
+        when(reusableMocks.mockDeleteGroceryListUseCase.call(any))
             .thenAnswer((_) async => Left(Failure("error")));
 
         // act
-        final call = groceryManager.deleteGroceryList;
+        final call = reusableMocks.groceryManager.deleteGroceryList;
 
         // assert
         expect(() async => await call(groceryList.id!),
@@ -208,34 +177,34 @@ void main() {
     group("success", () {
       setUp(() async {
         // populate grocery lists
-        when(mockGetGroceryListsUseCase.call())
+        when(reusableMocks.mockGetGroceryListsUseCase.call())
             .thenAnswer((_) async => const Right(listGroceryList));
-        await groceryManager.getGroceryLists();
+        await reusableMocks.groceryManager.getGroceryLists();
       });
       // test('addGroceryListItem should get add a grocery list item', () async {
       //   // arrange
-      //   when(mockAddGroceryListItemUseCase.call(any))
+      //   when(reusableMocks.mockAddGroceryListItemUseCase.call(any))
       //       .thenAnswer((_) async => const Right(null));
 
       //   // act
-      //   await groceryManager.addGroceryListItem(
+      //   await reusableMocks.groceryManager.addGroceryListItem(
       //       groceryList.id!, groceryListItem);
 
       //   // assert
-      //   // expect(groceryManager.groceryLists.first.groceryListItems,
+      //   // expect(reusableMocks.groceryManager.groceryLists.first.groceryListItems,
       //   //     equals(groceryListItem));
       // });
       // test('deleteGroceryListItem should get update a grocery list item',
       //     () async {
       //   // arrange
-      //   when(mockDeleteGroceryListItemUseCase.call(any))
+      //   when(reusableMocks.mockDeleteGroceryListItemUseCase.call(any))
       //       .thenAnswer((_) async => const Right(null));
 
       //   // act
-      //   await groceryManager.deleteGroceryListItem(groceryListItem);
+      //   await reusableMocks.groceryManager.deleteGroceryListItem(groceryListItem);
 
       //   // assert
-      //   expect(groceryManager.groceryLists.first.groceryListItems,
+      //   expect(reusableMocks.groceryManager.groceryLists.first.groceryListItems,
       //       equals(groceryListItem));
       // });
       // test('updateGroceryListItem should get update a grocery list item',
@@ -245,21 +214,21 @@ void main() {
       //       .thenAnswer((_) async => const Right(null));
 
       //   // act
-      //   await groceryManager.updateGroceryListItem(groceryListItem);
+      //   await reusableMocks.groceryManager.updateGroceryListItem(groceryListItem);
 
       //   // assert
-      //   expect(groceryManager.groceryLists.first.groceryListItems,
+      //   expect(reusableMocks.groceryManager.groceryLists.first.groceryListItems,
       //       equals(groceryListItem));
       // });
     });
     group("error", () {
       test('addGroceryListItem should throw error', () async {
         // arrange
-        when(mockAddGroceryListItemUseCase.call(any))
+        when(reusableMocks.mockAddGroceryListItemUseCase.call(any))
             .thenAnswer((_) async => Left(Failure("error")));
 
         // act
-        final call = groceryManager.addGroceryListItem;
+        final call = reusableMocks.groceryManager.addGroceryListItem;
 
         // assert
         expect(() async => await call(groceryList.id!, groceryListItem),
@@ -268,11 +237,11 @@ void main() {
       test('deleteGroceryListItem should get update a grocery list item',
           () async {
         // arrange
-        when(mockDeleteGroceryListItemUseCase.call(any))
+        when(reusableMocks.mockDeleteGroceryListItemUseCase.call(any))
             .thenAnswer((_) async => Left(Failure("error")));
 
         // act
-        final call = groceryManager.deleteGroceryListItem;
+        final call = reusableMocks.groceryManager.deleteGroceryListItem;
 
         // assert
         expect(() async => await call(groceryList.id!, groceryListItem.id),
@@ -280,11 +249,11 @@ void main() {
       });
       test('updateGroceryListItem should throw error', () async {
         // arrange
-        when(mockUpdateGroceryListItemUseCase.call(any))
+        when(reusableMocks.mockUpdateGroceryListItemUseCase.call(any))
             .thenAnswer((_) async => Left(Failure("error")));
 
         // act
-        final call = groceryManager.updateGroceryListItem;
+        final call = reusableMocks.groceryManager.updateGroceryListItem;
 
         // assert
         expect(() async => await call(groceryListItem),
@@ -310,12 +279,12 @@ void main() {
   ];
   test("getAllGroceryItems", () async {
     // populate grocery lists
-    when(mockGetGroceryListsUseCase.call())
+    when(reusableMocks.mockGetGroceryListsUseCase.call())
         .thenAnswer((_) async => const Right(listGroceryListWithItems));
-    await groceryManager.getGroceryLists();
+    await reusableMocks.groceryManager.getGroceryLists();
 
     // act
-    final result = groceryManager.getAllGroceryItems();
+    final result = reusableMocks.groceryManager.getAllGroceryItems();
 
     // assert
     expect(result, equals(expected));
